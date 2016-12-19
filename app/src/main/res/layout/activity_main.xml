@@ -10,8 +10,57 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/logo"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
         android:alpha=".10"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/Build"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Build"
+        android:id="@+id/Build"
+        android:layout_above="@+id/You"
+        android:layout_alignLeft="@+id/System"
+        android:layout_alignStart="@+id/System"
+        android:background="#42A5F5"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Start"
+        android:id="@+id/Start"
+        android:layout_above="@+id/You"
+        android:layout_toLeftOf="@+id/System"
+        android:layout_toStartOf="@+id/System"
+        android:background="#EF5350"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="You"
+        android:id="@+id/You"
+        android:layout_alignTop="@+id/System"
+        android:layout_toLeftOf="@+id/System"
+        android:layout_toStartOf="@+id/System"
+        android:background="#66BB6A"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="System"
+        android:id="@+id/System"
+        android:layout_marginRight="102dp"
+        android:layout_marginEnd="102dp"
+        android:background="#FFA726"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="176dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

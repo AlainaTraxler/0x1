@@ -10,8 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.epicodus.alainatraxler.a0x1.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class BaseActivity extends AppCompatActivity {
     public FirebaseAuth mAuth;
@@ -24,6 +27,13 @@ public class BaseActivity extends AppCompatActivity {
     public SharedPreferences mSharedPreferences;
     public SharedPreferences.Editor mEditor;
 
+    public DatabaseReference db;
+    public DatabaseReference dbUsers;
+    public DatabaseReference dbCurrentUser;
+    public DatabaseReference dbExercises;
+    public DatabaseReference dbRoutines;
+    public DatabaseReference dbWorkouts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +42,19 @@ public class BaseActivity extends AppCompatActivity {
         mContext = this;
         mCurrentUser = mAuth.getCurrentUser();
 
+        db = FirebaseDatabase.getInstance().getReference();
+        dbUsers = db.child(Constants.DB_NODE_USERS);
+        dbExercises = db.child(Constants.DB_NODE_EXERCISES);
+        dbRoutines = dbUsers.child(Constants.DB_NODE_ROUTINES);
+        dbWorkouts = dbUsers.child(Constants.DB_NODE_WORKOUTS);
+
         TAG = this.getClass().getSimpleName();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 
         if(mCurrentUser != null){
+            dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
         }else{
             Log.v(TAG, "No user logged in");

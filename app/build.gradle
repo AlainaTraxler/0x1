@@ -25,3 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

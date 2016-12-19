@@ -2,6 +2,9 @@ package com.epicodus.alainatraxler.a0x1.models;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Guest on 12/19/16.
  */
@@ -13,6 +16,7 @@ public class Exercise {
     public Integer distance = null;
     public Integer time = null;
     String pushId;
+    List<String> altNames = new ArrayList<>();
 
     public Exercise(){}
 
@@ -82,5 +86,13 @@ public class Exercise {
 
     public void setPushId(String pushId) {
         this.pushId = pushId;
+    }
+
+    public List<String> getAltNames() {
+        return altNames;
+    }
+
+    public void setAltNames(List<String> altNames) {
+        this.altNames = altNames;
     }
 }

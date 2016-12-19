@@ -9,6 +9,6 @@ public class Constants {
     public static final String DB_NODE_ROUTINES = "routines";
     public static final String DB_NODE_WORKOUTS = "workouts";
 
-    public static final String TYPE_WEIGHT = "weight";
-    public static final String TYPE_AEROBIC = "aerobic";
+    public static final String TYPE_WEIGHT = "WEIGHT";
+    public static final String TYPE_AEROBIC = "AEROBIC";
 }

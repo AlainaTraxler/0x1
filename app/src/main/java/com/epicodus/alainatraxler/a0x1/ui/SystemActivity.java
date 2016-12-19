@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.R;
+import com.epicodus.alainatraxler.a0x1.models.Exercise;
+import com.google.firebase.database.DatabaseReference;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,11 +47,23 @@ public class SystemActivity extends BaseActivity implements View.OnClickListener
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 //process line
-                Log.v(TAG, mLine.substring(0,mLine.indexOf("[")));
-                Log.v(TAG, mLine.substring(mLine.indexOf("[") + 1,mLine.indexOf("]")));
+                String name = mLine.substring(0,mLine.indexOf("["));
+                String type = mLine.substring(mLine.indexOf("[") + 1,mLine.indexOf("]"));
+
+                Log.v(TAG, name);
+                Log.v(TAG, type);
+
+                Exercise exercise = new Exercise(name, type);
+
                 if(mLine.contains("<")){
-                    Log.v(TAG, mLine.substring(mLine.indexOf("<") + 1,mLine.indexOf(">")));
+                    String altNames = mLine.substring(mLine.indexOf("<") + 1,mLine.indexOf(">"));
+                    Log.v(TAG, altNames);
+                    exercise.addAltName(altNames);
                 }
+
+                DatabaseReference pushRef = dbExercises.push();
+                exercise.setPushId(pushRef.getKey());
+                pushRef.setValue(exercise);
 
             }
 

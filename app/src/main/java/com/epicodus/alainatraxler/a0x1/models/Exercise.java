@@ -95,4 +95,8 @@ public class Exercise {
     public void setAltNames(List<String> altNames) {
         this.altNames = altNames;
     }
+
+    public void addAltName(String altName){
+        altNames.add(altName);
+    }
 }

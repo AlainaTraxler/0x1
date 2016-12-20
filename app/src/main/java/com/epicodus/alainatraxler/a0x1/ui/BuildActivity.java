@@ -24,6 +24,7 @@ import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
+import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
-public class BuildActivity extends BaseActivity implements DataTransferInterface, View.OnClickListener {
+public class BuildActivity extends BaseActivity implements DataTransferInterface, View.OnClickListener, OnStartDragListener {
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.LetsGo) Button mLetsGo;
@@ -62,7 +63,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mRecyclerViewFrom.setLayoutManager(FromLayoutManager);
         mRecyclerViewFrom.setHasFixedSize(true);
 
-        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this);
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
         mRecyclerViewTo.setAdapter(mToAdapter);
         RecyclerView.LayoutManager ToLayoutManager =
                 new LinearLayoutManager(BuildActivity.this);
@@ -167,5 +168,10 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
 
             }
         });
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

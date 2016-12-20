@@ -1,14 +1,17 @@
 package com.epicodus.alainatraxler.a0x1.adapters;
 
 import android.content.Context;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epicodus.alainatraxler.a0x1.R;
@@ -35,10 +38,11 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     private OnStartDragListener mOnStartDragListener;
 
-    public ToExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface) {
+    public ToExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface, OnStartDragListener onStartDragListener) {
         mContext = context;
         mExercises = exercises;
         this.dtInterface = dtInterface;
+        mOnStartDragListener = onStartDragListener;
     }
 
     @Override
@@ -50,8 +54,17 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
     }
 
     @Override
-    public void onBindViewHolder(ToExerciseAdapter.ExerciseViewHolder holder, int position) {
+    public void onBindViewHolder(final ToExerciseAdapter.ExerciseViewHolder holder, int position) {
         holder.bindExercise(mExercises.get(position));
+        holder.mDrag.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (MotionEventCompat.getActionMasked(motionEvent) == MotionEvent.ACTION_DOWN) {
+                    mOnStartDragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -76,6 +89,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         @Bind(R.id.Sets) EditText mSets;
         @Bind(R.id.Reps) EditText mReps;
         @Bind(R.id.Weight) EditText mWeight;
+        @Bind(R.id.Drag) ImageView mDrag;
 
         private Context mContext;
 

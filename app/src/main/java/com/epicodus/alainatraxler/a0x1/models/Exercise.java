@@ -2,12 +2,15 @@ package com.epicodus.alainatraxler.a0x1.models;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Guest on 12/19/16.
  */
+@Parcel
 public class Exercise {
     public String name;
     public Integer sets = null;

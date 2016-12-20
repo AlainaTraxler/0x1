@@ -30,6 +30,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -56,6 +58,10 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
+
+        if(Parcels.unwrap(getIntent().getParcelableExtra("exercises")) != null){
+            mExercisesTo = Parcels.unwrap(getIntent().getParcelableExtra("exercises"));
+        }
 
         mSource.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

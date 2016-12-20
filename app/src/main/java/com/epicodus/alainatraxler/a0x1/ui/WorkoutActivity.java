@@ -1,5 +1,7 @@
 package com.epicodus.alainatraxler.a0x1.ui;
 
+import android.content.Intent;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -131,7 +135,11 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                 pushRef.setValue(routine);
             }
         }else if(v == mDo){
-
+            if(validateSelected() && validateFields()){
+                Intent intent = new Intent(WorkoutActivity.this, StartActivity.class);
+                intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
+                startActivity(intent);
+            }
         }else if(v == mDelete){
             if(validateSelected()){
                 if(currentPushId != null){

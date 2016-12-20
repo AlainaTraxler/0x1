@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.adapters.FromExerciseAdapter;
+import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
@@ -34,7 +35,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
 
     private FromExerciseAdapter mFromAdapter;
-    private FromExerciseAdapter mToAdapter;
+    private ToExerciseAdapter mToAdapter;
     private ArrayList<Exercise> mExercises = new ArrayList<Exercise>();
     private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
     private ItemTouchHelper mItemTouchHelper;
@@ -52,7 +53,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mRecyclerViewFrom.setLayoutManager(FromLayoutManager);
         mRecyclerViewFrom.setHasFixedSize(true);
 
-        mToAdapter = new FromExerciseAdapter(getApplicationContext(), mExercisesTo, this);
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this);
         mRecyclerViewTo.setAdapter(mToAdapter);
         RecyclerView.LayoutManager ToLayoutManager =
                 new LinearLayoutManager(BuildActivity.this);

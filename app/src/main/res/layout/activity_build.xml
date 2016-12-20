@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="2"
     tools:context="com.epicodus.alainatraxler.a0x1.ui.BuildActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewFrom"
-        android:layout_width="0dip"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="10dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewTo"
-        android:layout_width="0dip"
-        android:layout_weight="1"
-        android:layout_alignParentRight="true"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewFrom"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"/>
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/vertical_separation_shadow_cropped"
+            android:layout_weight=".10" />
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewTo"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

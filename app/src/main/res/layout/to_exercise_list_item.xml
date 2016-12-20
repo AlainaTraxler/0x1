@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Exercise Name"
+        android:id="@+id/ExerciseName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+         />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/Weight"
+        android:gravity="center"
+        android:layout_below="@id/ExerciseName"
+        android:layout_alignParentRight="true"
+        android:hint="lbs" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="\@"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/Weight"
+        android:layout_toLeftOf="@+id/Weight"
+        android:layout_marginTop="7dp"
+        android:layout_toStartOf="@+id/Weight" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_alignBottom="@+id/Weight"
+        android:layout_toLeftOf="@+id/textView"
+        android:gravity="center"
+        android:hint="reps" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="x"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toLeftOf="@+id/editText"
+        android:layout_toStartOf="@+id/editText" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:gravity="center"
+        android:layout_alignTop="@+id/editText"
+        android:layout_toLeftOf="@+id/textView2"
+        android:layout_toStartOf="@+id/textView2"
+        android:hint="sets"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/Weight"
+        android:background="#FFB74D"/>
+
+</RelativeLayout>

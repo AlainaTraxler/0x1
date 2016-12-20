@@ -19,7 +19,8 @@
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.SystemActivity" />
         <activity android:name=".ui.BuildActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"
+            android:imeOptions="flagNoExtractUi"></activity>
     </application>
 
 </manifest>

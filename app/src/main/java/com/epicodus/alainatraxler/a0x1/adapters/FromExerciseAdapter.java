@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
+import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.ItemTouchHelperAdapter;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 
@@ -24,13 +25,17 @@ import butterknife.ButterKnife;
  */
 public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapter.ExerciseViewHolder> implements ItemTouchHelperAdapter {
     private ArrayList<Exercise> mExercises = new ArrayList<>();
+    private ArrayList<Exercise> mExercisesTo = new ArrayList<>();
     private Context mContext;
+
+    DataTransferInterface dtInterface;
 
     private OnStartDragListener mOnStartDragListener;
 
-    public FromExerciseAdapter(Context context, ArrayList<Exercise> exercises) {
+    public FromExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface) {
         mContext = context;
         mExercises = exercises;
+        this.dtInterface = dtInterface;
     }
 
     @Override
@@ -57,6 +62,8 @@ public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapte
 
     @Override
     public void onItemDismiss(int position) {
+        dtInterface.setValues(mExercises.get(position));
+        this.notifyItemRemoved(position);
         this.notifyItemInserted(position);
     }
 

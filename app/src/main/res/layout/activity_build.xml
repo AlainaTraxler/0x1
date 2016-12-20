@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="2"
+    android:layout_weight="2"
     tools:context="com.epicodus.alainatraxler.a0x1.ui.BuildActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewFrom"
-        android:layout_width="0dp"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_weight="1"/>
+        android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewTo"
-        android:layout_width="0dp"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_alignParentRight="true"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_margin="10dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

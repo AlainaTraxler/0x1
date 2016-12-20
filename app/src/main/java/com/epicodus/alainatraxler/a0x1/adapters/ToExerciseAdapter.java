@@ -59,9 +59,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     @Override
     public void onItemDismiss(int position) {
-        dtInterface.setValues(mExercises.get(position));
+        mExercises.remove(position);
         this.notifyItemRemoved(position);
-        this.notifyItemInserted(position);
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {

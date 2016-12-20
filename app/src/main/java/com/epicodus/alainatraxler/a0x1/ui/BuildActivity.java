@@ -66,7 +66,6 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mRecyclerViewTo.setHasFixedSize(true);
 
         mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
-        mRecyclerViewTo.setItemAnimator(new SlideInLeftAnimator());
 
         getExercises();
 
@@ -76,7 +75,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
 
         ItemTouchHelper.Callback callbackTo = new SimpleItemTouchHelperCallback(mToAdapter);
         mItemTouchHelper = new ItemTouchHelper(callbackTo);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerViewTo);
 
         mLetsGo.setOnClickListener(this);
     }

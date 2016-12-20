@@ -42,7 +42,7 @@
         android:inputType="number"
         android:ems="10"
         android:imeOptions="flagNoExtractUi"
-        android:id="@+id/editText"
+        android:id="@+id/Reps"
         android:layout_alignBottom="@+id/Weight"
         android:layout_toLeftOf="@+id/textView"
         android:gravity="center"
@@ -55,8 +55,8 @@
         android:text="x"
         android:id="@+id/textView2"
         android:layout_alignTop="@+id/textView"
-        android:layout_toLeftOf="@+id/editText"
-        android:layout_toStartOf="@+id/editText" />
+        android:layout_toLeftOf="@+id/Reps"
+        android:layout_toStartOf="@+id/Reps" />
 
     <EditText
         android:layout_width="50dp"
@@ -64,9 +64,9 @@
         android:inputType="number"
         android:imeOptions="flagNoExtractUi"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/Sets"
         android:gravity="center"
-        android:layout_alignTop="@+id/editText"
+        android:layout_alignTop="@+id/Reps"
         android:layout_toLeftOf="@+id/textView2"
         android:layout_toStartOf="@+id/textView2"
         android:hint="sets"/>

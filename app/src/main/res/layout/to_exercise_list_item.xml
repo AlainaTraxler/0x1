@@ -20,6 +20,7 @@
         android:ems="10"
         android:id="@+id/Weight"
         android:gravity="center"
+        android:imeOptions="flagNoExtractUi"
         android:layout_below="@id/ExerciseName"
         android:layout_alignParentRight="true"
         android:hint="lbs" />
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
+        android:imeOptions="flagNoExtractUi"
         android:id="@+id/editText"
         android:layout_alignBottom="@+id/Weight"
         android:layout_toLeftOf="@+id/textView"
@@ -60,6 +62,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:imeOptions="flagNoExtractUi"
         android:ems="10"
         android:id="@+id/editText2"
         android:gravity="center"
@@ -73,5 +76,14 @@
         android:layout_height="1dp"
         android:layout_below="@id/Weight"
         android:background="#FFB74D"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@mipmap/ic_swap_vert_black_24dp" />
 
 </RelativeLayout>

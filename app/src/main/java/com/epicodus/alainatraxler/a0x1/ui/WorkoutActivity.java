@@ -148,7 +148,10 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                     Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
                 }
             }
-
+        }else if(v == mUpdate){
+            if(validateSelected() && validateFields()){
+                dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 
 import java.security.Timestamp;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mBuild.setOnClickListener(this);
         mYou.setOnClickListener(this);
 
-//        overrideFonts(mContext, findViewById(android.R.id.content), "Questrial-Regular.ttf");
+//        overrideFonts(mContext, findViewById(android.R.id.content), Constants.FONT_MAIN);
     }
 
     public void onClick(View v){

@@ -83,7 +83,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
 
         mLetsGo.setOnClickListener(this);
 
-//        overrideFonts(mContext, findViewById(android.R.id.content), "Questrial-Regular.ttf");
+//        overrideFonts(mContext, findViewById(android.R.id.content), Constants.FONT_MAIN);
     }
 
     @Override

@@ -11,56 +11,69 @@
         android:id="@+id/imageView"
         android:src="@drawable/logo"
         android:alpha=".10"
-        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="32dp"
-        android:layout_above="@+id/Build"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="Build"
-        android:id="@+id/Build"
-        android:layout_above="@+id/You"
-        android:layout_alignLeft="@+id/System"
-        android:layout_alignStart="@+id/System"
-        android:background="#42A5F5"
-        android:textColor="#ffffff" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="4"
+        android:layout_centerVertical="true">
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="Start"
-        android:id="@+id/Start"
-        android:layout_above="@+id/You"
-        android:layout_toLeftOf="@+id/System"
-        android:layout_toStartOf="@+id/System"
-        android:background="#EF5350"
-        android:textColor="#ffffff" />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="Start"
+            android:layout_weight="1"
+            android:id="@+id/Start"
+            android:background="#EF5350"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="You"
-        android:id="@+id/You"
-        android:layout_alignTop="@+id/System"
-        android:layout_toLeftOf="@+id/System"
-        android:layout_toStartOf="@+id/System"
-        android:background="#66BB6A"
-        android:textColor="#ffffff" />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="Build"
+            android:id="@+id/Build"
+            android:background="#42A5F5"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_alignTop="@+id/Start"
+            android:layout_toRightOf="@+id/Start"
+            android:layout_toEndOf="@+id/Start" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="System"
-        android:id="@+id/System"
-        android:layout_marginRight="102dp"
-        android:layout_marginEnd="102dp"
-        android:background="#FFA726"
-        android:textColor="#ffffff"
-        android:layout_marginBottom="176dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="You"
+            android:layout_weight="1"
+            android:id="@+id/You"
+            android:background="#66BB6A"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/Build"
+            android:layout_toEndOf="@+id/Build" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="System"
+            android:layout_weight="1"
+            android:id="@+id/System"
+            android:background="#FFA726"
+            android:textColor="#ffffff"
+            android:layout_below="@+id/imageView"
+            android:layout_toRightOf="@+id/You"
+            android:layout_toEndOf="@+id/You" />
+
+    </LinearLayout>
+
+
+
 </RelativeLayout>

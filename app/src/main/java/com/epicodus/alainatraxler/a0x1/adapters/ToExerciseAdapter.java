@@ -74,6 +74,21 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        notifyItemMoved(fromPosition, toPosition);
+        Exercise catcher = mExercises.get(fromPosition);
+
+        Log.v("From", fromPosition + "");
+        Log.v("To", toPosition + "");
+
+        mExercises.add(toPosition, catcher);
+        if(fromPosition > toPosition){
+            mExercises.remove(fromPosition + 1);
+        }else{
+            mExercises.remove(fromPosition - 1);
+        }
+        for(int i = 0; i < mExercises.size(); i++){
+            Log.v(i + "", mExercises.get(i).getName());
+        }
         return false;
     }
 

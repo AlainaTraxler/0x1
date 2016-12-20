@@ -29,6 +29,7 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:0.4.1'
     compile 'com.android.support:support-v4:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.5'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.adapters.FromExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
+import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,21 +31,13 @@ public class BuildActivity extends BaseActivity {
 
     private FromExerciseAdapter mFromAdapter;
     private ArrayList<Exercise> mExercises = new ArrayList<Exercise>();
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build);
         ButterKnife.bind(this);
-
-//        DisplayMetrics displaymetrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//        int height = displaymetrics.heightPixels;
-//        int width = displaymetrics.widthPixels;
-//        mRecyclerViewFrom.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height));
-//
-//        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(width/2, height);
-
 
         mFromAdapter = new FromExerciseAdapter(getApplicationContext(), mExercises);
         mRecyclerViewFrom.setAdapter(mFromAdapter);
@@ -59,6 +53,10 @@ public class BuildActivity extends BaseActivity {
         mRecyclerViewTo.setHasFixedSize(true);
 
         getExercises();
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFromAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
     }
 
     public void getExercises(){

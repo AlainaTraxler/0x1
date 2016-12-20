@@ -2,6 +2,7 @@ package com.epicodus.alainatraxler.a0x1.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
+import com.epicodus.alainatraxler.a0x1.util.ItemTouchHelperAdapter;
+import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 
 import java.util.ArrayList;
 
@@ -19,9 +22,11 @@ import butterknife.ButterKnife;
 /**
  * Created by Guest on 12/19/16.
  */
-public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapter.ExerciseViewHolder> {
+public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapter.ExerciseViewHolder> implements ItemTouchHelperAdapter {
     private ArrayList<Exercise> mExercises = new ArrayList<>();
     private Context mContext;
+
+    private OnStartDragListener mOnStartDragListener;
 
     public FromExerciseAdapter(Context context, ArrayList<Exercise> exercises) {
         mContext = context;
@@ -43,6 +48,16 @@ public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapte
     @Override
     public int getItemCount() {
         return mExercises.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        this.notifyItemChanged(position);
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {

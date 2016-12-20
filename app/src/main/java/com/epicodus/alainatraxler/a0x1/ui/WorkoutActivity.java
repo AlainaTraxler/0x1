@@ -95,6 +95,21 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             return false;
         }
 
+        for(int i = 0; i < mExercisesTo.size(); i++){
+            Exercise exercise = mExercisesTo.get(i);
+            if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
+                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
+                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

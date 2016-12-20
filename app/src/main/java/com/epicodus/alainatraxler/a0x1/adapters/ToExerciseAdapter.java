@@ -94,9 +94,14 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     @Override
     public void onItemDismiss(int position) {
-        mExercises.remove(position);
         mViewHolder.onDismiss();
+        mExercises.remove(position);
         this.notifyItemRemoved(position);
+//        Log.v("View count", this.getItemCount() + "");
+//        Log.v("Exercise count", mExercises.size() + "");
+//        for(int i = 0; i < mExercises.size(); i++){
+//            Log.v(i + "", mExercises.get(i).getName());
+//        }
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
@@ -194,13 +199,10 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }
 
         public void onDismiss(){
-            mSets.removeTextChangedListener(mSetWatcher);
             mSets.setText("");
 
-            mReps.removeTextChangedListener(mRepWatcher);
             mReps.setText("");
 
-            mWeight.removeTextChangedListener(mWeightWatcher);
             mWeight.setText("");
         }
     }

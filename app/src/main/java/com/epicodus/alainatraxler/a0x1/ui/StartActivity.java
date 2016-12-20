@@ -1,10 +1,12 @@
 package com.epicodus.alainatraxler.a0x1.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,12 +21,14 @@ import com.epicodus.alainatraxler.a0x1.adapters.FromStartAdapter;
 import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
+import com.epicodus.alainatraxler.a0x1.models.Workout;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
@@ -100,6 +104,14 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         if(v == mDone){
             if(validate()){
                 Toast.makeText(StartActivity.this, "Worout completed!", Toast.LENGTH_SHORT).show();
+
+                Workout workout = new Workout(mExercisesTo);
+                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).push();
+                workout.setPushId(pushRef.getKey());
+                pushRef.setValue(workout);
+
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         }
     }
@@ -198,6 +210,10 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
             if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
                 if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
                     Toast.makeText(StartActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    Log.e("Name", exercise.getName());
+                    Log.e("Sets", exercise.getSets() + "");
+                    Log.e("Name", exercise.getReps() + "");
+                    Log.e("Name", exercise.getWeight() + "");
                     return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){

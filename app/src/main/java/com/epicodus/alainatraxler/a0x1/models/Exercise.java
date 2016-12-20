@@ -17,11 +17,13 @@ public class Exercise {
     public Integer time = null;
     String pushId;
     List<String> altNames = new ArrayList<>();
+    String type;
 
     public Exercise(){}
 
     public Exercise(String _name, String type){
         name = _name;
+        this.type = type;
         if(type.equals(Constants.TYPE_WEIGHT)){
             sets = 0;
             reps = 0;
@@ -98,5 +100,13 @@ public class Exercise {
 
     public void addAltName(String altName){
         altNames.add(altName);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

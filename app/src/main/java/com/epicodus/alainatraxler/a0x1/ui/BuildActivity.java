@@ -1,5 +1,6 @@
 package com.epicodus.alainatraxler.a0x1.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
@@ -30,9 +34,10 @@ import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
-public class BuildActivity extends BaseActivity implements DataTransferInterface {
+public class BuildActivity extends BaseActivity implements DataTransferInterface, View.OnClickListener {
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
+    @Bind(R.id.LetsGo) Button mLetsGo;
 
     private FromExerciseAdapter mFromAdapter;
     private ToExerciseAdapter mToAdapter;
@@ -72,11 +77,46 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         ItemTouchHelper.Callback callbackTo = new SimpleItemTouchHelperCallback(mToAdapter);
         mItemTouchHelper = new ItemTouchHelper(callbackTo);
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
+
+        mLetsGo.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v == mLetsGo){
+            if(validate()){
+                Intent intent = new Intent(BuildActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    public Boolean validate(){
+        if(mExercisesTo.size() == 0){
+            Toast.makeText(BuildActivity.this, "You haven't selected anything!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        for(int i = 0; i < mExercisesTo.size(); i++){
+            Exercise exercise = mExercisesTo.get(i);
+            if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
+                    Toast.makeText(BuildActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
+                    Toast.makeText(BuildActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
     public void setValues(Exercise exercise) {
-        // TODO Auto-generated method stub
 
         mExercisesTo.add(exercise);
         mToAdapter.notifyDataSetChanged();
@@ -87,6 +127,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mExercises.add(dataSnapshot.getValue(Exercise.class));
+                mFromAdapter.notifyDataSetChanged();
             }
 
             @Override

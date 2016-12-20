@@ -84,17 +84,23 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mDelete.setOnClickListener(this);
     }
 
-    public Boolean validate(){
-        if(mName.getText().toString().equals("")){
+    public Boolean validateName() {
+        if (mName.getText().toString().equals("")) {
             Toast.makeText(WorkoutActivity.this, "Please name this routine", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
 
+    public Boolean validateSelected(){
         if(mExercisesTo.size() == 0){
             Toast.makeText(WorkoutActivity.this, "Please select a workout", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
 
+    public Boolean validateFields(){
         for(int i = 0; i < mExercisesTo.size(); i++){
             Exercise exercise = mExercisesTo.get(i);
             if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
@@ -116,7 +122,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validate()){
+            if(validateName() && validateSelected() && validateFields()){
                 Toast.makeText(WorkoutActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
 
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
@@ -127,19 +133,22 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         }else if(v == mDo){
 
         }else if(v == mDelete){
-            if(currentPushId != null){
-                dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
+            if(validateSelected()){
+                if(currentPushId != null){
+                    dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
 
-                int catcher = mExercisesTo.size();
-                mToAdapter.resetExercises();
-                mExercisesTo.clear();
-                mToAdapter.notifyItemRangeRemoved(0, catcher);
+                    int catcher = mExercisesTo.size();
+                    mToAdapter.resetExercises();
+                    mExercisesTo.clear();
+                    mToAdapter.notifyItemRangeRemoved(0, catcher);
 
-                mWorkouts.clear();
-                getWorkouts();
-            }else{
-                Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
+                    mWorkouts.clear();
+                    getWorkouts();
+                }else{
+                    Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
+                }
             }
+
         }
     }
 

@@ -11,4 +11,5 @@ import java.util.ArrayList;
 public interface DataTransferInterface {
     public void setValues(Exercise exercise);
     public void setRoutine(Routine routine);
+    public void setString(String name);
 }

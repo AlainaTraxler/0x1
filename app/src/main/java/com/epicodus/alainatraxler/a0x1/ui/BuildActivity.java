@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.RelativeLayout;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BuildActivity extends BaseActivity {
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
@@ -51,6 +54,8 @@ public class BuildActivity extends BaseActivity {
                 new LinearLayoutManager(BuildActivity.this);
         mRecyclerViewTo.setLayoutManager(ToLayoutManager);
         mRecyclerViewTo.setHasFixedSize(true);
+
+        mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
 
         getExercises();
 

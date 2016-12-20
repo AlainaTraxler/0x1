@@ -57,7 +57,7 @@ public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapte
 
     @Override
     public void onItemDismiss(int position) {
-        this.notifyItemChanged(position);
+        this.notifyItemInserted(position);
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {

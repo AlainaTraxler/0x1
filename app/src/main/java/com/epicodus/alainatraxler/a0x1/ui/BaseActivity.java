@@ -3,12 +3,18 @@ package com.epicodus.alainatraxler.a0x1.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ButtonBarLayout;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,5 +96,20 @@ public class BaseActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    public void overrideFonts(final Context context, final View v, String font) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    overrideFonts(context, child, font);
+                }
+            } else if (v instanceof TextView || v instanceof Button) {
+                ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/" + font));
+            }
+        } catch (Exception e) {
+            }
     }
 }

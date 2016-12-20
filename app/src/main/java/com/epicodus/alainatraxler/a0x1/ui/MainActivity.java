@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mSystem.setOnClickListener(this);
         mBuild.setOnClickListener(this);
         mYou.setOnClickListener(this);
+
+//        overrideFonts(mContext, findViewById(android.R.id.content), "Questrial-Regular.ttf");
     }
 
     public void onClick(View v){

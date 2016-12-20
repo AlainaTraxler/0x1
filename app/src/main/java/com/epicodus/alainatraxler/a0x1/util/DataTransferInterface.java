@@ -12,4 +12,5 @@ public interface DataTransferInterface {
     public void setValues(Exercise exercise);
     public void setRoutine(Routine routine);
     public void setString(String name);
+    public void setObject(Object object);
 }

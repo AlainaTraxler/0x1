@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="3"
+    tools:context="com.epicodus.alainatraxler.a0x1.ui.YouActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Workouts"
+        android:layout_weight="1"
+        android:id="@+id/Workouts"
+        android:background="#EF5350"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Routines"
+        android:layout_weight="1"
+        android:id="@+id/Routines"
+        android:background="#42A5F5"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Profile"
+        android:layout_weight="1"
+        android:id="@+id/Profile"
+        android:background="#66BB6A"
+        android:textColor="#ffffff" />
+</LinearLayout>

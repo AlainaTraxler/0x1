@@ -48,9 +48,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             Intent intent = new Intent(MainActivity.this, BuildActivity.class);
             startActivity(intent);
         }else if(v == mYou){
-
-//            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-//            Toast.makeText(MainActivity.this, currentDateTimeString, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, YouActivity.class);
+            startActivity(intent);
         }else if(v == mStart){
             Intent intent = new Intent(MainActivity.this, StartActivity.class);
             startActivity(intent);

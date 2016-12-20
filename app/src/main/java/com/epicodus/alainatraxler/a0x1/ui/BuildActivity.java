@@ -145,6 +145,9 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Override
     public void setString(String string){}
 
+    @Override
+    public void setObject(Object object){}
+
     public void getExercises(){
         dbExercises.addChildEventListener(new ChildEventListener() {
             @Override

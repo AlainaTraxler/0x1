@@ -130,6 +130,9 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void setString(String string){}
 
+    @Override
+    public void setObject(Object object){}
+
     public void getRoutines(){
         dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addChildEventListener(new ChildEventListener() {
             @Override

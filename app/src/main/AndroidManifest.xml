@@ -22,8 +22,14 @@
         <activity android:name=".ui.SystemActivity" />
         <activity
             android:name=".ui.BuildActivity"
-            android:screenOrientation="landscape"></activity>
-        <activity android:name=".ui.StartActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.StartActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.YouActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.WorkoutActivity"
             android:screenOrientation="landscape"></activity>
     </application>
 

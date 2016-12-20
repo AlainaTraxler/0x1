@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.System) Button mSystem;
     @Bind(R.id.Build) Button mBuild;
     @Bind(R.id.You) Button mYou;
+    @Bind(R.id.Start) Button mStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mSystem.setOnClickListener(this);
         mBuild.setOnClickListener(this);
         mYou.setOnClickListener(this);
+        mStart.setOnClickListener(this);
 
 //        overrideFonts(mContext, findViewById(android.R.id.content), Constants.FONT_MAIN);
     }
@@ -49,6 +51,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 //            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 //            Toast.makeText(MainActivity.this, currentDateTimeString, Toast.LENGTH_SHORT).show();
+        }else if(v == mStart){
+            Intent intent = new Intent(MainActivity.this, StartActivity.class);
+            startActivity(intent);
         }
     }
 }

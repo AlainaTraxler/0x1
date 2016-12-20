@@ -140,6 +140,9 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mToAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void setRoutine(Routine routine){}
+
     public void getExercises(){
         dbExercises.addChildEventListener(new ChildEventListener() {
             @Override

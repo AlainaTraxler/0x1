@@ -9,14 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
-        android:id="@+id/button"
+        android:id="@+id/Done"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="#EF5350" />
 
     <Switch
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="Routines"
         android:id="@+id/Source"
@@ -25,16 +25,8 @@
         android:paddingLeft="10dp"
         android:paddingTop="20dp"
         android:layout_alignParentStart="true"
-        android:checked="false" />
-
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Search"
-        android:layout_alignTop="@+id/Source"
-        android:layout_toRightOf="@+id/Source"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
+        android:checked="false"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -69,4 +61,13 @@
             android:layout_margin="10dp"/>
 
     </LinearLayout>
+
+    <SearchView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Search"
+        android:layout_alignTop="@+id/Source"
+        android:layout_toRightOf="@+id/Source"
+        android:layout_toLeftOf="@+id/Done"
+        android:layout_toStartOf="@+id/Done" />
 </RelativeLayout>

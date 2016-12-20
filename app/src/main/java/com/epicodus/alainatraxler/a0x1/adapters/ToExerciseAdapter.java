@@ -196,6 +196,18 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             };
 
             mWeight.addTextChangedListener(mWeightWatcher);
+
+            if(exercise.getSets() != 0){
+                mSets.setText(String.valueOf(exercise.getSets()));
+            }
+
+            if(exercise.getReps() != 0){
+                mReps.setText(String.valueOf(exercise.getReps()));
+            }
+
+            if(exercise.getWeight() != 0){
+                mWeight.setText(String.valueOf(exercise.getWeight()));
+            }
         }
 
         public void onDismiss(){

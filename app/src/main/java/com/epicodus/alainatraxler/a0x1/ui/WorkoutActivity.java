@@ -38,6 +38,8 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.Save) Button mSave;
     @Bind(R.id.Do) Button mDo;
+    @Bind(R.id.Update) Button mUpdate;
+    @Bind(R.id.Delete) Button mDelete;
     @Bind(R.id.Name) EditText mName;
 
     private ArrayList<Workout> mWorkouts = new ArrayList<Workout>();
@@ -45,6 +47,8 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     private FromWorkoutAdapter mFromWorkoutAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private ToExerciseAdapter mToAdapter;
+
+    private String currentPushId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,8 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
         mSave.setOnClickListener(this);
         mDo.setOnClickListener(this);
+        mUpdate.setOnClickListener(this);
+        mDelete.setOnClickListener(this);
     }
 
     public Boolean validate(){
@@ -105,6 +111,20 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             }
         }else if(v == mDo){
 
+        }else if(v == mDelete){
+            if(currentPushId != null){
+                dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
+
+                int catcher = mExercisesTo.size();
+                mToAdapter.resetExercises();
+                mExercisesTo.clear();
+                mToAdapter.notifyItemRangeRemoved(0, catcher);
+
+                mWorkouts.clear();
+                getWorkouts();
+            }else{
+                Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -119,12 +139,14 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
     @Override
     public void setObject(Object object){
+        Workout workout = (Workout) object;
+        currentPushId = workout.getPushId();
+
         int catcher = mExercisesTo.size();
         mToAdapter.resetExercises();
         mExercisesTo.clear();
         mToAdapter.notifyItemRangeRemoved(0, catcher);
 
-        Workout workout = (Workout) object;
         for(int i = 0; i < workout.getExercises().size(); i++){
             mExercisesTo.add(workout.getExercises().get(i));
         }

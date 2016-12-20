@@ -2,6 +2,7 @@ package com.epicodus.alainatraxler.a0x1.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,16 @@ public class FromStartAdapter extends RecyclerView.Adapter<FromStartAdapter.Name
 
     @Override
     public void onItemDismiss(int position) {
-        dtInterface.setString(mNames.get(position));
+//        dtInterface.setString(mNames.get(position));
+
+        if(onRoutine){
+            Routine routine = mRoutines.get(position);
+            for(int i = 0; i < routine.getExercises().size(); i++){
+                dtInterface.setValues(routine.getExercises().get(i));
+            }
+        }else{
+            dtInterface.setValues(mExercises.get(position));
+        }
         this.notifyItemRemoved(position);
         this.notifyItemInserted(position);
     }
@@ -79,10 +89,12 @@ public class FromStartAdapter extends RecyclerView.Adapter<FromStartAdapter.Name
         if(onRoutine){
             onRoutine = false;
             mNames = mExerciseNames;
+            Log.v("Toggle", "Exercise");
             this.notifyDataSetChanged();
         }else{
             onRoutine = true;
             mNames = mRoutineNames;
+            Log.v("Toggle", "Routine");
             this.notifyDataSetChanged();
         }
     }

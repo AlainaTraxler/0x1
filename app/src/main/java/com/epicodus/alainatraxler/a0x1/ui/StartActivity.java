@@ -7,16 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.adapters.FromStartAdapter;
+import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
+import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,16 +32,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
-public class StartActivity extends BaseActivity implements View.OnClickListener, DataTransferInterface{
+public class StartActivity extends BaseActivity implements View.OnClickListener, DataTransferInterface, OnStartDragListener{
     @Bind(R.id.Source) Switch mSource;
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
+    @Bind(R.id.Done) Button mDone;
 
     private ArrayList<Routine> mRoutines = new ArrayList<Routine>();
     private ArrayList<Exercise> mExercises = new ArrayList<Exercise>();
+    private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
     private ArrayList<String> mExerciseNames = new ArrayList<String>();
     private ArrayList<String> mRoutineNames = new ArrayList<String>();
     private FromStartAdapter mFromStartAdapter;
+    private ToExerciseAdapter mToAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
     @Override
@@ -45,9 +52,6 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
-
-        final DataTransferInterface selfCatch = this;
-
 
         mSource.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -62,7 +66,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
-        mFromStartAdapter = new FromStartAdapter(getApplicationContext(), mExercises, selfCatch, mRoutines, mRoutineNames, mExerciseNames);
+        mFromStartAdapter = new FromStartAdapter(getApplicationContext(), mExercises, this, mRoutines, mRoutineNames, mExerciseNames);
         mRecyclerViewFrom.setAdapter((RecyclerView.Adapter) mFromStartAdapter);
         RecyclerView.LayoutManager FromLayoutManager =
                 new LinearLayoutManager(StartActivity.this);
@@ -71,24 +75,39 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
         mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
 
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
+        mRecyclerViewTo.setAdapter(mToAdapter);
+        RecyclerView.LayoutManager ToLayoutManager =
+                new LinearLayoutManager(StartActivity.this);
+        mRecyclerViewTo.setLayoutManager(ToLayoutManager);
+        mRecyclerViewTo.setHasFixedSize(true);
+
         ItemTouchHelper.Callback callbackFrom = new SimpleItemTouchHelperCallback(mFromStartAdapter);
         mItemTouchHelper = new ItemTouchHelper(callbackFrom);
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
 
-//        ItemTouchHelper.Callback callbackFromExercise = new SimpleItemTouchHelperCallback(mFromExerciseAdapter);
-//        mItemTouchHelper = new ItemTouchHelper(callbackFromRoutine);
-//        mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
+        ItemTouchHelper.Callback callbackTo = new SimpleItemTouchHelperCallback(mToAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callbackTo);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerViewTo);
 
         getRoutines();
         getExercises();
+
+        mDone.setOnClickListener(this);
     }
 
     public void onClick(View v){
+        if(v == mDone){
+            if(validate()){
+                Toast.makeText(StartActivity.this, "Worout completed!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
     public void setValues(Exercise exercise){
-
+        mExercisesTo.add(exercise);
+        mToAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -161,5 +180,34 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
             }
         });
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    public Boolean validate(){
+        if(mExercisesTo.size() == 0){
+            Toast.makeText(StartActivity.this, "You haven't selected anything!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        for(int i = 0; i < mExercisesTo.size(); i++){
+            Exercise exercise = mExercisesTo.get(i);
+            if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
+                    Toast.makeText(StartActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
+                    Toast.makeText(StartActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

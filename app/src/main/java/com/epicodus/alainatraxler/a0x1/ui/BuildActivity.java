@@ -135,7 +135,6 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
 
     @Override
     public void setValues(Exercise exercise) {
-
         mExercisesTo.add(exercise);
         mToAdapter.notifyDataSetChanged();
     }

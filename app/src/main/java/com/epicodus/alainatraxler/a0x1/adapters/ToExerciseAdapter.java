@@ -86,9 +86,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }else{
             mExercises.remove(fromPosition - 1);
         }
-//        for(int i = 0; i < mExercises.size(); i++){
-//            Log.v(i + "", mExercises.get(i).getName());
-//        }
         return false;
     }
 
@@ -102,6 +99,10 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 //        for(int i = 0; i < mExercises.size(); i++){
 //            Log.v(i + "", mExercises.get(i).getName());
 //        }
+    }
+
+    public void resetExercises(){
+        mExercises.clear();
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
@@ -134,9 +135,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     String catcher = mSets.getText().toString();
-                    if(!catcher.equals("")){
+                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setSets(Integer.parseInt(catcher));
-                    }else{
+                    }else if(mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setSets(0);
                     }
                 }
@@ -158,9 +159,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     String catcher = mReps.getText().toString();
-                    if(!catcher.equals("")){
+                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setReps(Integer.parseInt(catcher));
-                    }else{
+                    }else if(mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setReps(0);
                     }
                 }
@@ -182,9 +183,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     String catcher = mWeight.getText().toString();
-                    if(!catcher.equals("")){
+                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setWeight(Integer.parseInt(catcher));
-                    }else{
+                    }else if(mExercises.indexOf(exercise) != -1){
                         mExercises.get(mExercises.indexOf(exercise)).setWeight(0);
                     }
                 }
@@ -217,5 +218,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
             mWeight.setText("");
         }
+
     }
 }

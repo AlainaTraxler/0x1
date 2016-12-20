@@ -5,15 +5,22 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.adapters.FromExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.adapters.FromWorkoutAdapter;
+import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
 import com.epicodus.alainatraxler.a0x1.models.Workout;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
+import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,12 +33,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
-public class WorkoutActivity extends BaseActivity implements DataTransferInterface{
+public class WorkoutActivity extends BaseActivity implements DataTransferInterface, OnStartDragListener, View.OnClickListener{
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
+    @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
+    @Bind(R.id.Save) Button mSave;
+    @Bind(R.id.Do) Button mDo;
+    @Bind(R.id.Name) EditText mName;
 
     private ArrayList<Workout> mWorkouts = new ArrayList<Workout>();
+    private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
     private FromWorkoutAdapter mFromWorkoutAdapter;
     private ItemTouchHelper mItemTouchHelper;
+    private ToExerciseAdapter mToAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,13 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mRecyclerViewFrom.setLayoutManager(FromLayoutManager);
         mRecyclerViewFrom.setHasFixedSize(true);
 
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
+        mRecyclerViewTo.setAdapter(mToAdapter);
+        RecyclerView.LayoutManager ToLayoutManager =
+                new LinearLayoutManager(WorkoutActivity.this);
+        mRecyclerViewTo.setLayoutManager(ToLayoutManager);
+        mRecyclerViewTo.setHasFixedSize(true);
+
         mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
 
         ItemTouchHelper.Callback callbackFrom = new SimpleItemTouchHelperCallback(mFromWorkoutAdapter);
@@ -53,6 +73,35 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
 
         getWorkouts();
+
+        mSave.setOnClickListener(this);
+        mDo.setOnClickListener(this);
+    }
+
+    public Boolean validate(){
+        if(mName.getText().toString().equals("")){
+            Toast.makeText(WorkoutActivity.this, "Please name this routine", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(mExercisesTo.size() == 0){
+            Toast.makeText(WorkoutActivity.this, "Please select a workout", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v == mSave){
+            if(validate()){
+                Toast.makeText(WorkoutActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
+
+            }
+        }else if(v == mDo){
+
+        }
     }
 
     @Override
@@ -65,7 +114,23 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     public void setString(String string){}
 
     @Override
-    public void setObject(Object object){}
+    public void setObject(Object object){
+        int catcher = mExercisesTo.size();
+        mToAdapter.resetExercises();
+        mExercisesTo.clear();
+        mToAdapter.notifyItemRangeRemoved(0, catcher);
+
+        Workout workout = (Workout) object;
+        for(int i = 0; i < workout.getExercises().size(); i++){
+            mExercisesTo.add(workout.getExercises().get(i));
+        }
+        mToAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 
     public void getWorkouts(){
         dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addChildEventListener(new ChildEventListener() {

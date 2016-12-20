@@ -111,7 +111,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         }
 
         if(mName.getText().toString().equals("")){
-            Toast.makeText(BuildActivity.this, "You need to name your new routine!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BuildActivity.this, "You need to name your routine", Toast.LENGTH_SHORT).show();
             return false;
         }
 

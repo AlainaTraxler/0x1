@@ -98,6 +98,10 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             if(validate()){
                 Toast.makeText(WorkoutActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
 
+                Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
+                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
+                routine.setPushId(pushRef.getKey());
+                pushRef.setValue(routine);
             }
         }else if(v == mDo){
 

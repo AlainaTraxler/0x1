@@ -23,7 +23,8 @@
         <activity
             android:name=".ui.BuildActivity"
             android:screenOrientation="landscape"></activity>
-        <activity android:name=".ui.StartActivity"></activity>
+        <activity android:name=".ui.StartActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

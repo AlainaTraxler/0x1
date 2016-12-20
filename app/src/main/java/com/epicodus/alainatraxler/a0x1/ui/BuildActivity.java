@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,11 +22,13 @@ import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.adapters.FromExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
+import com.epicodus.alainatraxler.a0x1.models.Routine;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.LetsGo) Button mLetsGo;
+    @Bind(R.id.Name) EditText mName;
 
     private FromExerciseAdapter mFromAdapter;
     private ToExerciseAdapter mToAdapter;
@@ -84,6 +88,13 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     public void onClick(View v){
         if(v == mLetsGo){
             if(validate()){
+                Toast.makeText(BuildActivity.this, "Routine created!", Toast.LENGTH_SHORT).show();
+                Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
+
+                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
+                routine.setPushId(pushRef.getKey());
+                pushRef.setValue(routine);
+
                 Intent intent = new Intent(BuildActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -93,6 +104,11 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     public Boolean validate(){
         if(mExercisesTo.size() == 0){
             Toast.makeText(BuildActivity.this, "You haven't selected anything!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(mName.getText().toString().equals("")){
+            Toast.makeText(BuildActivity.this, "You need to name your new routine!", Toast.LENGTH_SHORT).show();
             return false;
         }
 

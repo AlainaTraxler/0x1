@@ -46,8 +46,8 @@
         android:id="@+id/searchView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/LetsGo"
-        android:layout_toStartOf="@+id/LetsGo" />
+        android:layout_toStartOf="@+id/Name"
+        android:layout_toLeftOf="@+id/Name" />
 
     <Button
         android:layout_width="wrap_content"
@@ -57,5 +57,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:imeOptions="flagNoExtractUi"
+        android:layout_height="wrap_content"
+        android:id="@+id/Name"
+        android:layout_alignBottom="@id/LetsGo"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/LetsGo"
+        android:hint="name"
+        android:layout_toStartOf="@+id/LetsGo" />
 
 </RelativeLayout>

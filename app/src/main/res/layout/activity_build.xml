@@ -1,73 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.epicodus.alainatraxler.a0x1.ui.BuildActivity">
+    android:orientation="vertical"
+    tools:context="com.epicodus.alainatraxler.a0x1.ui.WorkoutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <SearchView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView2"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:imeOptions="flagNoExtractUi"
+            android:layout_height="wrap_content"
+            android:id="@+id/Name"
+            android:hint="name"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do"
+            android:id="@+id/Do"
+            android:layout_weight="2"
+            android:background="#EF5350" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make"
+            android:id="@+id/Save"
+            android:layout_weight="2"
+            android:background="#42A5F5" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="2"
+        android:weightSum="2"
         android:layout_height="match_parent"
-        android:layout_below="@+id/searchView">
+        android:id="@+id/linearLayout2">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewFrom"
             android:layout_width="0dip"
-            android:layout_weight="1"
+            android:layout_weight=".95"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:layout_margin="10dp"/>
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:src="@drawable/vertical_separation_shadow_cropped"
             android:layout_weight=".10" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewTo"
             android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_alignParentRight="true"
+            android:layout_weight=".95"
             android:layout_height="match_parent"
             android:layout_margin="10dp"/>
 
     </LinearLayout>
-
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:imeOptions="flagNoExtractUi"
-        android:id="@+id/searchView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/Name"
-        android:layout_toLeftOf="@+id/Name" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Let&apos;s Go"
-        android:id="@+id/LetsGo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="#42A5F5" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:imeOptions="flagNoExtractUi"
-        android:layout_height="wrap_content"
-        android:id="@+id/Name"
-        android:layout_alignBottom="@id/LetsGo"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/LetsGo"
-        android:hint="name"
-        android:layout_toStartOf="@+id/LetsGo" />
-
-</RelativeLayout>
+</LinearLayout>

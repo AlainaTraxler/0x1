@@ -41,7 +41,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 public class BuildActivity extends BaseActivity implements DataTransferInterface, View.OnClickListener, OnStartDragListener {
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
-    @Bind(R.id.LetsGo) Button mLetsGo;
+    @Bind(R.id.Save) Button mSave;
     @Bind(R.id.Name) EditText mName;
 
     private FromExerciseAdapter mFromAdapter;
@@ -82,24 +82,24 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mItemTouchHelper = new ItemTouchHelper(callbackTo);
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewTo);
 
-        mLetsGo.setOnClickListener(this);
+        mSave.setOnClickListener(this);
 
 //        overrideFonts(mContext, findViewById(android.R.id.content), Constants.FONT_MAIN);
     }
 
     @Override
     public void onClick(View v){
-        if(v == mLetsGo){
+        if(v == mSave){
             if(validate()){
-                Toast.makeText(BuildActivity.this, "Routine created!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BuildActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
 
                 DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
                 routine.setPushId(pushRef.getKey());
                 pushRef.setValue(routine);
 
-                Intent intent = new Intent(BuildActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(BuildActivity.this, MainActivity.class);
+//                startActivity(intent);
             }
         }
     }

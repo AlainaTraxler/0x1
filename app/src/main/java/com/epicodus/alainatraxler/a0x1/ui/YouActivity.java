@@ -34,6 +34,9 @@ public class YouActivity extends AppCompatActivity implements View.OnClickListen
         }if(v == mRoutines){
             Intent intent = new Intent(YouActivity.this, RoutineActivity.class);
             startActivity(intent);
+        }if(v == mProfile){
+            Intent intent = new Intent(YouActivity.this, ProfileActivity.class);
+            startActivity(intent);
         }
     }
 }

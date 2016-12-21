@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -45,6 +46,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.Done) Button mDone;
+    @Bind(R.id.Save) Button mSave;
+    @Bind(R.id.Name) TextView mName;
 
     private ArrayList<Routine> mRoutines = new ArrayList<Routine>();
     private ArrayList<Exercise> mExercises = new ArrayList<Exercise>();
@@ -106,6 +109,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         getExercises();
 
         mDone.setOnClickListener(this);
+        mSave.setOnClickListener(this);
     }
 
     public void onClick(View v){
@@ -120,6 +124,15 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
+            }
+        }if(v == mSave){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){
+                Toast.makeText(StartActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
+                Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
+
+                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
+                routine.setPushId(pushRef.getKey());
+                pushRef.setValue(routine);
             }
         }
     }

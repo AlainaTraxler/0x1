@@ -22,19 +22,23 @@
         <activity android:name=".ui.SystemActivity" />
         <activity
             android:name=".ui.BuildActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.StartActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.YouActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.WorkoutActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.RoutineActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.ProfileActivity"
             android:screenOrientation="landscape"></activity>
     </application>

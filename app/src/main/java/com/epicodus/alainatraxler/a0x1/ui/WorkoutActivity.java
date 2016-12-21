@@ -1,5 +1,6 @@
 package com.epicodus.alainatraxler.a0x1.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -139,6 +141,12 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
     @Override
     public void setObject(Object object){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         Workout workout = (Workout) object;
         currentPushId = workout.getPushId();
 

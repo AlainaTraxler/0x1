@@ -3,6 +3,7 @@ package com.epicodus.alainatraxler.a0x1.adapters;
 import android.content.Context;
 import android.provider.Contacts;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -106,7 +107,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         mExercises.clear();
     }
 
-    public class ExerciseViewHolder extends RecyclerView.ViewHolder {
+    public class ExerciseViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.ExerciseName) TextView mExerciseName;
         @Bind(R.id.At) TextView mAt;
         @Bind(R.id.X) TextView mX;
@@ -119,6 +120,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         @Bind(R.id.Drag) ImageView mDrag;
 
         private Context mContext;
+        private View mItemView;
 
         private TextWatcher mSetWatcher;
         private TextWatcher mRepWatcher;
@@ -126,14 +128,13 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         private TextWatcher mTimeWatcher;
         private TextWatcher mDistanceWatcher;
 
-        private Boolean mRecall = true;
-
         private Exercise mExercise;
 
         public ExerciseViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            mItemView = itemView;
         }
 
         private void disableWeight(){

@@ -114,7 +114,7 @@
 
         <EditText
             android:layout_width="75dp"
-            android:imeOptions="flagNoExtractUi"
+            android:imeOptions="flagNoExtractUi|"
             android:gravity="center"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content"

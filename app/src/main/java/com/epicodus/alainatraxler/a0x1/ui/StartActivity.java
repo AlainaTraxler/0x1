@@ -108,7 +108,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
     public void onClick(View v){
         if(v == mDone){
-            if(validate()){
+            if(validateSelected() && validateFields()){
                 Toast.makeText(StartActivity.this, "Worout completed!", Toast.LENGTH_SHORT).show();
 
                 Workout workout = new Workout(mExercisesTo);
@@ -208,26 +208,38 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         mItemTouchHelper.startDrag(viewHolder);
     }
 
-    public Boolean validate(){
+//    public Boolean validateName() {
+//        if (mName.getText().toString().equals("")) {
+//            Toast.makeText(StartActivity.this, "Please name this routine", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public Boolean validateSelected(){
         if(mExercisesTo.size() == 0){
-            Toast.makeText(StartActivity.this, "You haven't selected anything!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StartActivity.this, "Please select a workout", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
 
+    public Boolean validateFields(){
         for(int i = 0; i < mExercisesTo.size(); i++){
             Exercise exercise = mExercisesTo.get(i);
             if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
                 if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
-                    Toast.makeText(StartActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
-                    Log.e("Name", exercise.getName());
-                    Log.e("Sets", exercise.getSets() + "");
-                    Log.e("Name", exercise.getReps() + "");
-                    Log.e("Name", exercise.getWeight() + "");
+                    Toast.makeText(StartActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
                 if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
-                    Toast.makeText(StartActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StartActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
+                    Toast.makeText(StartActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }

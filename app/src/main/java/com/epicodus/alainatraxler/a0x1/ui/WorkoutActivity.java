@@ -117,6 +117,11 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                     Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
+            }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
+                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
         }
 

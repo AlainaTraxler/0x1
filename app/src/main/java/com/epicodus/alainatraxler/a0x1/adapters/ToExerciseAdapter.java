@@ -1,6 +1,7 @@
 package com.epicodus.alainatraxler.a0x1.adapters;
 
 import android.content.Context;
+import android.provider.Contacts;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
@@ -101,6 +104,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.ExerciseName) TextView mExerciseName;
+        @Bind(R.id.At) TextView mAt;
+        @Bind(R.id.X) TextView mX;
         @Bind(R.id.Sets) EditText mSets;
         @Bind(R.id.Reps) EditText mReps;
         @Bind(R.id.Weight) EditText mWeight;
@@ -120,7 +125,16 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mContext = itemView.getContext();
         }
 
+        private void disableWeight(){
+            mWeight.setVisibility(View.INVISIBLE);
+            mAt.setVisibility(View.INVISIBLE);
+        }
+
         public void bindExercise(final Exercise exercise) {
+            if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                disableWeight();
+
+            }
 
             mExercise = exercise;
 

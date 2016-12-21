@@ -143,6 +143,11 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
                     Toast.makeText(BuildActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
+            }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
+                    Toast.makeText(BuildActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
         }
 

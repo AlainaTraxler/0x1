@@ -127,7 +127,6 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                     mExercisesTo.clear();
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
-                    mWorkouts.clear();
                     getWorkouts();
                     mFromWorkoutAdapter.notifyDataSetChanged();
                 }else{
@@ -181,6 +180,8 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
     public void getWorkouts(){
         Log.v(TAG, "Getting workouts");
+        mWorkouts.clear();
+        mSearchArray.clear();
         dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

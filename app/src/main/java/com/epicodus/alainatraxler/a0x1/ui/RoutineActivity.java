@@ -127,7 +127,6 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
                     mName.setText("");
-                    mRoutines.clear();
                     getRoutines();
                     mFromRoutineAdapter.notifyDataSetChanged();
                 }else{
@@ -189,6 +188,8 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
 
     public void getRoutines(){
         Log.v(TAG, "Getting routines");
+        mRoutines.clear();
+        mSearchArray.clear();
         dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

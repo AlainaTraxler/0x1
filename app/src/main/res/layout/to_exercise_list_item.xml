@@ -101,6 +101,7 @@
             android:layout_width="75dp"
             android:imeOptions="flagNoExtractUi"
             android:gravity="center"
+            android:inputType="time"
             android:id="@+id/Time"
             android:hint="mins" />
 
@@ -115,6 +116,7 @@
             android:layout_width="75dp"
             android:imeOptions="flagNoExtractUi"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:layout_height="wrap_content"
             android:id="@+id/Distance"
             android:hint="miles" />

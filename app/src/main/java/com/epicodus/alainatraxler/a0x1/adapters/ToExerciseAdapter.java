@@ -281,7 +281,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             }
 
             if(exercise.getTime() != null){
-                mTime.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+//                mTime.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
 
                 mTimeWatcher = new TextWatcher() {
                     @Override
@@ -293,9 +293,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         String catcher = mTime.getText().toString();
                         if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setTime(Integer.parseInt(catcher));
+                            mExercises.get(mExercises.indexOf(exercise)).setTime(catcher);
                         }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setTime(0);
+                            mExercises.get(mExercises.indexOf(exercise)).setTime("");
                         }
                     }
 
@@ -307,7 +307,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
                 mTime.addTextChangedListener(mTimeWatcher);
 
-                if(exercise.getTime() != 0){
+                if(exercise.getTime().length() != 0){
                     mTime.setText(String.valueOf(exercise.getTime()));
                 }
             }
@@ -325,9 +325,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         String catcher = mDistance.getText().toString();
                         if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setDistance(Integer.parseInt(catcher));
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(Double.parseDouble(catcher));
                         }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setDistance(0);
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(0.0);
                         }
                     }
 

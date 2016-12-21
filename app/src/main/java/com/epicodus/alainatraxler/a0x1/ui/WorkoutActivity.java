@@ -88,50 +88,10 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mDelete.setOnClickListener(this);
     }
 
-    public Boolean validateName() {
-        if (mName.getText().toString().equals("")) {
-            Toast.makeText(WorkoutActivity.this, "Please name this routine", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    public Boolean validateSelected(){
-        if(mExercisesTo.size() == 0){
-            Toast.makeText(WorkoutActivity.this, "Please select a workout", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    public Boolean validateFields(){
-        for(int i = 0; i < mExercisesTo.size(); i++){
-            Exercise exercise = mExercisesTo.get(i);
-            if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
-                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
-                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
-                if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
-                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
-                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
-                    Toast.makeText(WorkoutActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validateName() && validateSelected() && validateFields()){
+            if(validateName(mName.getText().toString()) && validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
                 Toast.makeText(WorkoutActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
 
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
@@ -140,13 +100,13 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                 pushRef.setValue(routine);
             }
         }else if(v == mDo){
-            if(validateSelected() && validateFields()){
+            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
                 Intent intent = new Intent(WorkoutActivity.this, StartActivity.class);
                 intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
                 startActivity(intent);
             }
         }else if(v == mDelete){
-            if(validateSelected()){
+            if(validateSelected(mExercisesTo)){
                 if(currentPushId != null){
                     dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
 
@@ -162,7 +122,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                 }
             }
         }else if(v == mUpdate){
-            if(validateSelected() && validateFields()){
+            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
                 dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
             }
         }

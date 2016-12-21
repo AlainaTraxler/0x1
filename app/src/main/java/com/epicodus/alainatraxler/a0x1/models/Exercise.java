@@ -16,8 +16,8 @@ public class Exercise {
     public Integer sets = null;
     public Integer reps = null;
     public Double weight = null;
-    public Integer distance = null;
-    public Integer time = null;
+    public Double distance = null;
+    public String time = null;
     String pushId;
     List<String> altNames = new ArrayList<>();
     String type;
@@ -32,8 +32,8 @@ public class Exercise {
             reps = 0;
             weight = 0.0;
         }else if(type.equals(Constants.TYPE_AEROBIC)){
-            distance = 0;
-            time = 0;
+            distance = 0.0;
+            time = "0:00";
         }else if(type.equals(Constants.TYPE_BODYWEIGHT)){
             sets = 0;
             reps = 0;
@@ -72,19 +72,19 @@ public class Exercise {
         this.weight = weight;
     }
 
-    public Integer getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 
-    public Integer getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

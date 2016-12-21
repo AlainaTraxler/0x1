@@ -15,12 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
+import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity {
     public FirebaseAuth mAuth;
@@ -111,5 +116,54 @@ public class BaseActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             }
+    }
+
+    public Boolean validateName(String name) {
+        if (name.equals("")) {
+            Toast.makeText(mContext, "Please name this routine", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean validateSelected(ArrayList<Exercise> exercises){
+        if(exercises.size() == 0){
+            Toast.makeText(mContext, "Please select a workout", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean validateFields(ArrayList<Exercise> exercises){
+        for(int i = 0; i < exercises.size(); i++){
+            Exercise exercise = exercises.get(i);
+            if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
+                    Toast.makeText(mContext, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                String time = exercise.getTime();
+                String minutes = time.substring(0,time.indexOf(":"));
+                String seconds = time.substring(time.indexOf(":") + 1, time.length());
+
+                if(minutes.length() <=0 || seconds.length() != 2 || Integer.parseInt(minutes) + Integer.parseInt(seconds) <= 0){
+                    Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if(exercise.getDistance() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid distance for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
+                    Toast.makeText(mContext, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

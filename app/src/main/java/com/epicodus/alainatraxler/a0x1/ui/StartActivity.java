@@ -85,10 +85,12 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
                 if(mSource.isChecked()){
                     mSource.setText("Exercises");
                     mOnRoutine = false;
+                    mSearch.setQuery("", false);
                     mFromStartAdapter.toggleDataset();
                 }else{
                     mSource.setText("Routines");
                     mOnRoutine = true;
+                    mSearch.setQuery("", false);
                     mFromStartAdapter.toggleDataset();
                 }
             }

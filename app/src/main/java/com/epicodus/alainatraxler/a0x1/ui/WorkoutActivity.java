@@ -111,7 +111,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                 pushRef.setValue(routine);
             }
         }else if(v == mDo){
-            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo)){
                 Intent intent = new Intent(WorkoutActivity.this, StartActivity.class);
                 intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
                 startActivity(intent);

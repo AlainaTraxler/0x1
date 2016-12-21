@@ -101,7 +101,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo) && validateName(mName.getText().toString())){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){
                 Toast.makeText(RoutineActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
 
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
@@ -110,7 +110,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                 pushRef.setValue(routine);
             }
         }else if(v == mDo){
-            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo)){
                 Intent intent = new Intent(RoutineActivity.this, StartActivity.class);
                 intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
                 startActivity(intent);

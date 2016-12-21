@@ -35,13 +35,14 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:ems="10"
             android:imeOptions="flagNoExtractUi"
-            android:id="@+id/Reps"
-            android:layout_alignBottom="@+id/Weight"
-            android:layout_toLeftOf="@+id/Pipe"
+            android:ems="10"
+            android:id="@+id/Sets"
             android:gravity="center"
-            android:hint="reps" />
+            android:layout_alignTop="@+id/Reps"
+            android:layout_toLeftOf="@+id/textView2"
+            android:layout_toStartOf="@+id/textView2"
+            android:hint="sets"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,14 +58,13 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:imeOptions="flagNoExtractUi"
             android:ems="10"
-            android:id="@+id/Sets"
+            android:imeOptions="flagNoExtractUi"
+            android:id="@+id/Reps"
+            android:layout_alignBottom="@+id/Weight"
+            android:layout_toLeftOf="@+id/Pipe"
             android:gravity="center"
-            android:layout_alignTop="@+id/Reps"
-            android:layout_toLeftOf="@+id/textView2"
-            android:layout_toStartOf="@+id/textView2"
-            android:hint="sets"/>
+            android:hint="reps" />
 
         <TextView
             android:layout_width="wrap_content"

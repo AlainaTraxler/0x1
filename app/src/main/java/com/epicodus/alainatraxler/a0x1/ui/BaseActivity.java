@@ -138,8 +138,18 @@ public class BaseActivity extends AppCompatActivity {
         for(int i = 0; i < exercises.size(); i++){
             Exercise exercise = exercises.get(i);
             if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
-                if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
-                    Toast.makeText(mContext, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                if(exercise.getSets() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid number of sets for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if(exercise.getReps() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid number of reps for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if(exercise.getWeight() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid weight for " + exercise.getName(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
@@ -157,8 +167,13 @@ public class BaseActivity extends AppCompatActivity {
                     return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
-                if(exercise.getSets() <= 0 || exercise.getReps() <= 0){
-                    Toast.makeText(mContext, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                if(exercise.getSets() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid number of sets for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if(exercise.getReps() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid number of reps for " + exercise.getName(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }

@@ -93,7 +93,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validateName(mName.getText().toString()) && validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
+            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo) && validateName(mName.getText().toString())){
                 Toast.makeText(WorkoutActivity.this, "New routine created", Toast.LENGTH_SHORT).show();
 
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
@@ -110,6 +110,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         }else if(v == mDelete){
             if(validateSelected(mExercisesTo)){
                 if(currentPushId != null){
+                    Log.v(TAG, "In");
                     dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
 
                     int catcher = mExercisesTo.size();
@@ -119,6 +120,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
                     mWorkouts.clear();
                     getWorkouts();
+                    mFromWorkoutAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
                 }
@@ -141,14 +143,9 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
     @Override
     public void setObject(Object object){
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-
         Workout workout = (Workout) object;
         currentPushId = workout.getPushId();
+        Log.v(TAG, "PushID: " + currentPushId);
 
         int catcher = mExercisesTo.size();
         mToAdapter.resetExercises();
@@ -159,6 +156,12 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             mExercisesTo.add(workout.getExercises().get(i));
         }
         mToAdapter.notifyDataSetChanged();
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override
@@ -167,6 +170,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     }
 
     public void getWorkouts(){
+        Log.v(TAG, "Getting workouts");
         dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -177,7 +181,6 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

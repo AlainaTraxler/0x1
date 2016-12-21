@@ -64,26 +64,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         setContentView(R.layout.activity_build);
         ButterKnife.bind(this);
 
-        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                mSearchArray.clear();
-                for(int i = 0; i < mExercises.size(); i++){
-                    Exercise exercise = mExercises.get(i);
-                    if(exercise.getName().toLowerCase().contains(newText.toLowerCase())){
-                        mSearchArray.add(exercise);
-                        Log.v(TAG, exercise.getName());
-                    }
-                }
-                mFromAdapter.notifyDataSetChanged();
-                return false;
-            }
-        });
+        initializeSearch();
 
         mFromAdapter = new FromExerciseAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromAdapter);
@@ -196,5 +177,28 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    private void initializeSearch(){
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArray.clear();
+                for(int i = 0; i < mExercises.size(); i++){
+                    Exercise exercise = mExercises.get(i);
+                    if(exercise.getName().toLowerCase().contains(newText.toLowerCase())){
+                        mSearchArray.add(exercise);
+                        Log.v(TAG, exercise.getName());
+                    }
+                }
+                mFromAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
     }
 }

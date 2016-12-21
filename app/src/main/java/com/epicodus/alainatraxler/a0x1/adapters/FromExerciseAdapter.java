@@ -25,12 +25,9 @@ import butterknife.ButterKnife;
  */
 public class FromExerciseAdapter extends RecyclerView.Adapter<FromExerciseAdapter.ExerciseViewHolder> implements ItemTouchHelperAdapter {
     private ArrayList<Exercise> mExercises = new ArrayList<>();
-    private ArrayList<Exercise> mExercisesTo = new ArrayList<>();
     private Context mContext;
 
     DataTransferInterface dtInterface;
-
-    private OnStartDragListener mOnStartDragListener;
 
     public FromExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface) {
         mContext = context;

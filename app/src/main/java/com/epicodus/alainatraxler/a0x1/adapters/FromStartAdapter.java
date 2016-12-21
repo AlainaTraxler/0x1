@@ -37,7 +37,7 @@ public class FromStartAdapter extends RecyclerView.Adapter<FromStartAdapter.Name
 
     private OnStartDragListener mOnStartDragListener;
 
-    public FromStartAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface, ArrayList<Routine> routines, ArrayList<String> routineNames, ArrayList<String> exerciseNames) {
+    public FromStartAdapter(Context context, DataTransferInterface dtInterface, ArrayList<Routine> routines, ArrayList<String> routineNames, ArrayList<Exercise> exercises, ArrayList<String> exerciseNames) {
         mContext = context;
         mExercises = exercises;
         mRoutines = routines;

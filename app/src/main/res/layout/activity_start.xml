@@ -9,37 +9,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="horizontal">
         <Switch
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:text="Routines"
             android:id="@+id/Source"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="10dp"
             android:paddingTop="20dp"
-            android:layout_alignParentStart="true"
             android:checked="false"
             android:textAlignment="center" />
-        <SearchView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Search"
-            android:layout_alignTop="@+id/Source"
-            android:layout_toLeftOf="@+id/Done"
-            android:layout_toRightOf="@+id/Source"
-            android:imeOptions="flagNoExtractUi"
-            android:layout_weight="1"
-            android:layout_toEndOf="@+id/Source" />
-        <EditText
-            android:layout_width="0dp"
-            android:imeOptions="flagNoExtractUi"
-            android:layout_height="wrap_content"
-            android:id="@+id/Name"
-            android:hint="name"
-            android:layout_weight="1"/>
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Search"
+                android:imeOptions="flagNoExtractUi"
+                android:layout_weight="1" />
+            <EditText
+                android:layout_width="0dp"
+                android:imeOptions="flagNoExtractUi"
+                android:layout_height="wrap_content"
+                android:id="@+id/Name"
+                android:hint="name"
+                android:layout_weight="1"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

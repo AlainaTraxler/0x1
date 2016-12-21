@@ -112,6 +112,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         TextWatcher mRepWatcher;
         TextWatcher mWeightWatcher;
 
+        private Exercise mExercise;
+
         public ExerciseViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -119,6 +121,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }
 
         public void bindExercise(final Exercise exercise) {
+
+            mExercise = exercise;
 
             if(exercise.getSets() != null){
                 mExerciseName.setText(exercise.getName());
@@ -213,11 +217,17 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }
 
         public void onDismiss(){
-            mSets.setText("");
+            if(mExercise.getSets() != null){
+                mSets.setText("");
+            }
 
-            mReps.setText("");
+            if(mExercise.getReps() != null){
+                mReps.setText("");
+            }
 
-            mWeight.setText("");
+            if(mExercise.getWeight() != null){
+                mWeight.setText("");
+            }
         }
 
     }

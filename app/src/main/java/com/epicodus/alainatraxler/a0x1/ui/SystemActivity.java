@@ -39,6 +39,8 @@ public class SystemActivity extends BaseActivity implements View.OnClickListener
     public void seedExercisesFromTextFile(){
         Toast.makeText(SystemActivity.this, "Seed active", Toast.LENGTH_SHORT).show();
 
+        dbExercises.removeValue();
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
@@ -57,7 +59,6 @@ public class SystemActivity extends BaseActivity implements View.OnClickListener
 
                 if(mLine.contains("<")){
                     String altNames = mLine.substring(mLine.indexOf("<") + 1,mLine.indexOf(">"));
-                    Log.v(TAG, altNames);
                     exercise.addAltName(altNames);
                 }
 

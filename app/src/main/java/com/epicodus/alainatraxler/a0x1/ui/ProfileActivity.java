@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 public class ProfileActivity extends BaseActivity {
     @Bind(R.id.Workouts) TextView mWorkouts;
     @Bind(R.id.Moved) TextView mMoved;
-    @Bind(R.id.Weight) TextView mWeight;
+//    @Bind(R.id.Weight) TextView mWeight;
 
     long mTotalWeightMoved = 0;
 
@@ -58,7 +58,7 @@ public class ProfileActivity extends BaseActivity {
 
                 for(int i = 0; i < exercises.size(); i++){
                     Exercise exercise = exercises.get(i);
-                    mTotalWeightMoved += exercise.getSets() * exercise.getReps() * exercise.getWeight();
+                    mTotalWeightMoved += exercise.getSets() * exercise.getReps();
                 }
 
                 mMoved.setText(String.valueOf(mTotalWeightMoved));

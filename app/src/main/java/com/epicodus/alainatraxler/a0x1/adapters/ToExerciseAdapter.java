@@ -85,10 +85,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mExercises.remove(fromPosition);
         }
 
-//        for(int i = 0; i < mExercises.size(); i++){
-//            Log.v(i + "", mExercises.get(i).getName());
-//        }
-
         return false;
     }
 
@@ -97,11 +93,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         mViewHolder.onDismiss();
         mExercises.remove(position);
         this.notifyItemRemoved(position);
-//        Log.v("View count", this.getItemCount() + "");
-//        Log.v("Exercise count", mExercises.size() + "");
-//        for(int i = 0; i < mExercises.size(); i++){
-//            Log.v(i + "", mExercises.get(i).getName());
-//        }
     }
 
     public void resetExercises(){
@@ -128,89 +119,96 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }
 
         public void bindExercise(final Exercise exercise) {
-            mExerciseName.setText(exercise.getName());
 
-            mSetWatcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
-                }
+            if(exercise.getSets() != null){
+                mExerciseName.setText(exercise.getName());
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String catcher = mSets.getText().toString();
-                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setSets(Integer.parseInt(catcher));
-                    }else if(mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setSets(0);
+                mSetWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
                     }
-                }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            };
-
-            mSets.addTextChangedListener(mSetWatcher);
-
-            mRepWatcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String catcher = mReps.getText().toString();
-                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setReps(Integer.parseInt(catcher));
-                    }else if(mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setReps(0);
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mSets.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setSets(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setSets(0);
+                        }
                     }
-                }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
-                }
-            };
-
-            mReps.addTextChangedListener(mRepWatcher);
-
-            mWeightWatcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String catcher = mWeight.getText().toString();
-                    if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setWeight(Integer.parseInt(catcher));
-                    }else if(mExercises.indexOf(exercise) != -1){
-                        mExercises.get(mExercises.indexOf(exercise)).setWeight(0);
                     }
+                };
+
+                mSets.addTextChangedListener(mSetWatcher);
+
+                if(exercise.getSets() != 0){
+                    mSets.setText(String.valueOf(exercise.getSets()));
                 }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            };
-
-            mWeight.addTextChangedListener(mWeightWatcher);
-
-            if(exercise.getSets() != 0){
-                mSets.setText(String.valueOf(exercise.getSets()));
             }
 
-            if(exercise.getReps() != 0){
-                mReps.setText(String.valueOf(exercise.getReps()));
+            if(exercise.getReps() != null){
+                mRepWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mReps.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setReps(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setReps(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mReps.addTextChangedListener(mRepWatcher);
+
+                if(exercise.getReps() != 0){
+                    mReps.setText(String.valueOf(exercise.getReps()));
+                }
             }
 
-            if(exercise.getWeight() != 0){
-                mWeight.setText(String.valueOf(exercise.getWeight()));
+            if(exercise.getWeight() != null){
+                mWeightWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mWeight.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mWeight.addTextChangedListener(mWeightWatcher);
+
+                if(exercise.getWeight() != 0){
+                    mWeight.setText(String.valueOf(exercise.getWeight()));
+                }
             }
         }
 

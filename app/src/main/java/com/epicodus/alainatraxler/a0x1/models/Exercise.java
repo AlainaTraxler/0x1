@@ -34,6 +34,9 @@ public class Exercise {
         }else if(type.equals(Constants.TYPE_AEROBIC)){
             distance = 0;
             time = 0;
+        }else if(type.equals(Constants.TYPE_BODYWEIGHT)){
+            sets = 0;
+            reps = 0;
         }
     }
 

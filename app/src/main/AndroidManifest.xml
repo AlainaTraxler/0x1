@@ -29,7 +29,10 @@
         <activity
             android:name=".ui.YouActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".ui.WorkoutActivity"
+        <activity
+            android:name=".ui.WorkoutActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.RoutineActivity"
             android:screenOrientation="landscape"></activity>
     </application>
 

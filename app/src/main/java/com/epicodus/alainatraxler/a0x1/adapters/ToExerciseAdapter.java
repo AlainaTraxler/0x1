@@ -83,11 +83,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }else{
             mExercises.add(toPosition + 1, catcher);
             mExercises.remove(fromPosition);
-            if(fromPosition == 0){
-//                mExercises.remove(fromPosition);
-            }else{
-//                mExercises.remove(toPosition - 1);
-            }
         }
 
 //        for(int i = 0; i < mExercises.size(); i++){

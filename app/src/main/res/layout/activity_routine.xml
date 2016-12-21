@@ -31,9 +31,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Name"
         android:orientation="horizontal"
-        android:id="@id/linearLayout"
         android:weightSum="4">
         <Button
             android:layout_width="wrap_content"

@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
@@ -48,11 +49,13 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Bind(R.id.Save) Button mSave;
     @Bind(R.id.Do) Button mDo;
     @Bind(R.id.Name) EditText mName;
+    @Bind(R.id.Search) SearchView mSearch;
 
     private FromExerciseAdapter mFromAdapter;
     private ToExerciseAdapter mToAdapter;
     private ArrayList<Exercise> mExercises = new ArrayList<Exercise>();
     private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
+    private ArrayList<Exercise> mSearchArray = new ArrayList<Exercise>();
     private ItemTouchHelper mItemTouchHelper;
 
     @Override
@@ -61,7 +64,28 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         setContentView(R.layout.activity_build);
         ButterKnife.bind(this);
 
-        mFromAdapter = new FromExerciseAdapter(getApplicationContext(), mExercises, this);
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArray.clear();
+                for(int i = 0; i < mExercises.size(); i++){
+                    Exercise exercise = mExercises.get(i);
+                    if(exercise.getName().toLowerCase().contains(newText.toLowerCase())){
+                        mSearchArray.add(exercise);
+                        Log.v(TAG, exercise.getName());
+                    }
+                }
+                mFromAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        mFromAdapter = new FromExerciseAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromAdapter);
         RecyclerView.LayoutManager FromLayoutManager =
                 new LinearLayoutManager(BuildActivity.this);
@@ -143,6 +167,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mExercises.add(dataSnapshot.getValue(Exercise.class));
+                mSearchArray.add(dataSnapshot.getValue(Exercise.class));
                 mFromAdapter.notifyDataSetChanged();
             }
 

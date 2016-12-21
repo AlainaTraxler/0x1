@@ -237,9 +237,9 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         String catcher = mWeight.getText().toString();
                         if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setWeight(Integer.parseInt(catcher));
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(Double.parseDouble(catcher));
                         }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setWeight(0);
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(0.0);
                         }
                     }
 

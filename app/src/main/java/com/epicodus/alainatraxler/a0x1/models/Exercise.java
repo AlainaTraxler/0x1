@@ -15,7 +15,7 @@ public class Exercise {
     public String name;
     public Integer sets = null;
     public Integer reps = null;
-    public Integer weight = null;
+    public Double weight = null;
     public Integer distance = null;
     public Integer time = null;
     String pushId;
@@ -30,7 +30,7 @@ public class Exercise {
         if(type.equals(Constants.TYPE_WEIGHT)){
             sets = 0;
             reps = 0;
-            weight = 0;
+            weight = 0.0;
         }else if(type.equals(Constants.TYPE_AEROBIC)){
             distance = 0;
             time = 0;
@@ -64,11 +64,11 @@ public class Exercise {
         this.reps = reps;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

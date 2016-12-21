@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
@@ -47,8 +48,10 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
     @Bind(R.id.Update) Button mUpdate;
     @Bind(R.id.Delete) Button mDelete;
     @Bind(R.id.Name) EditText mName;
+    @Bind(R.id.Search) SearchView mSearch;
 
     private ArrayList<Workout> mWorkouts = new ArrayList<Workout>();
+    private ArrayList<Workout> mSearchArray = new ArrayList<Workout>();
     private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
     private FromWorkoutAdapter mFromWorkoutAdapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -62,7 +65,9 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         setContentView(R.layout.activity_workout);
         ButterKnife.bind(this);
 
-        mFromWorkoutAdapter = new FromWorkoutAdapter(getApplicationContext(), mWorkouts, this);
+        initializeSearch();
+
+        mFromWorkoutAdapter = new FromWorkoutAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromWorkoutAdapter);
         RecyclerView.LayoutManager FromLayoutManager =
                 new LinearLayoutManager(WorkoutActivity.this);
@@ -181,6 +186,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Workout workout = dataSnapshot.getValue(Workout.class);
                 mWorkouts.add(workout);
+                mSearchArray.add(workout);
                 mFromWorkoutAdapter.notifyDataSetChanged();
             }
 
@@ -201,6 +207,28 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void initializeSearch(){
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArray.clear();
+                for(int i = 0; i < mWorkouts.size(); i++){
+                    Workout workout = mWorkouts.get(i);
+                    if(workout.getCompleted().toLowerCase().contains(newText.toLowerCase())){
+                        mSearchArray.add(workout);
+                    }
+                }
+                mFromWorkoutAdapter.notifyDataSetChanged();
+                return false;
             }
         });
     }

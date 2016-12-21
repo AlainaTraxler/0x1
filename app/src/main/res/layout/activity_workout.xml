@@ -15,7 +15,8 @@
         <SearchView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/searchView2"
+            android:id="@+id/Search"
+            android:imeOptions="flagNoExtractUi"
             android:layout_weight="1"/>
 
         <EditText

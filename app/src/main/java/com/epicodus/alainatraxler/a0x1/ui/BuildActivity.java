@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,7 +43,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class BuildActivity extends BaseActivity implements DataTransferInterface, View.OnClickListener, OnStartDragListener {
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
@@ -58,6 +59,8 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     private ArrayList<Exercise> mSearchArray = new ArrayList<Exercise>();
     private ItemTouchHelper mItemTouchHelper;
 
+    private String previousName = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,33 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         ButterKnife.bind(this);
 
         initializeSearch();
+
+        mName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentName = mName.getText().toString();
+                if(currentName.length() > 0){
+                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' '){
+                        mName.setText(previousName);
+                        mName.setSelection(previousName.length());
+                    }else{
+                        previousName = currentName;
+                    }
+                }else{
+                    previousName = "";
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         mFromAdapter = new FromExerciseAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromAdapter);

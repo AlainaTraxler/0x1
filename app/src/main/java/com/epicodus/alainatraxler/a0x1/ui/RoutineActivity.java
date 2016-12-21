@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -57,6 +59,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
     private ToExerciseAdapter mToAdapter;
 
     private String currentPushId;
+    private String previousName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,33 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
         ButterKnife.bind(this);
 
         initializeSearch();
+
+        mName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentName = mName.getText().toString();
+                if(currentName.length() > 0){
+                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' '){
+                        mName.setText(previousName);
+                        mName.setSelection(previousName.length());
+                    }else{
+                        previousName = currentName;
+                    }
+                }else{
+                    previousName = "";
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         mFromRoutineAdapter = new FromRoutineAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromRoutineAdapter);

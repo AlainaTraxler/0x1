@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,7 +52,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.Done) Button mDone;
     @Bind(R.id.Save) Button mSave;
-    @Bind(R.id.Name) TextView mName;
+    @Bind(R.id.Name) EditText mName;
     @Bind(R.id.Search) SearchView mSearch;
 
     private ArrayList<Routine> mRoutines = new ArrayList<Routine>();
@@ -66,6 +69,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     private ItemTouchHelper mItemTouchHelper;
 
     private Boolean mOnRoutine = true;
+    private String previousName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,33 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
                     mSearch.setQuery("", false);
                     mFromStartAdapter.toggleDataset();
                 }
+            }
+        });
+
+        mName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentName = mName.getText().toString();
+                if(currentName.length() > 0){
+                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' '){
+                        mName.setText(previousName);
+                        mName.setSelection(previousName.length());
+                    }else{
+                        previousName = currentName;
+                    }
+                }else{
+                    previousName = "";
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

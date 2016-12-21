@@ -33,13 +33,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="4">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Make"
-            android:id="@+id/Save"
-            android:layout_weight="1"
-            android:background="#42A5F5" />
 
         <Button
             android:layout_width="wrap_content"
@@ -48,6 +41,14 @@
             android:id="@+id/Do"
             android:layout_weight="1"
             android:background="#EF5350" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make"
+            android:id="@+id/Save"
+            android:layout_weight="1"
+            android:background="#42A5F5" />
 
         <Button
             android:layout_width="wrap_content"

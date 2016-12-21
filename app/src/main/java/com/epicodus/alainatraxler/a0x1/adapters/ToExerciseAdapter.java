@@ -98,7 +98,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     @Override
     public void onItemDismiss(int position) {
-        mViewHolder.onDismiss();
         mExercises.remove(position);
         this.notifyItemRemoved(position);
     }
@@ -342,28 +341,5 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                 }
             }
         }
-
-        public void onDismiss(){
-            if(mExercise.getSets() != null){
-                mSets.setText("");
-            }
-
-            if(mExercise.getReps() != null){
-                mReps.setText("");
-            }
-
-            if(mExercise.getWeight() != null){
-                mWeight.setText("");
-            }
-
-            if(mExercise.getTime() != null){
-                mTime.setText("");
-            }
-
-            if(mExercise.getDistance() != null){
-                mDistance.setText("");
-            }
-        }
-
     }
 }

@@ -82,6 +82,10 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mItemTouchHelper = new ItemTouchHelper(callbackFrom);
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewFrom);
 
+        ItemTouchHelper.Callback callbackTo = new SimpleItemTouchHelperCallback(mToAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callbackTo);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerViewTo);
+
         getWorkouts();
 
         mSave.setOnClickListener(this);

@@ -114,7 +114,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         }else if(v == mDelete){
             if(validateSelected(mExercisesTo)){
                 if(currentPushId != null){
-                    Log.v(TAG, "In");
+                    Toast.makeText(WorkoutActivity.this, "Workout deleted", Toast.LENGTH_SHORT).show();
                     dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).removeValue();
 
                     int catcher = mExercisesTo.size();
@@ -131,6 +131,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             }
         }else if(v == mUpdate){
             if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
+                Toast.makeText(WorkoutActivity.this, "Workout updated", Toast.LENGTH_SHORT).show();
                 dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
             }
         }

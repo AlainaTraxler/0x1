@@ -38,7 +38,7 @@ public class FromRoutineAdapter extends RecyclerView.Adapter<FromRoutineAdapter.
 
     @Override
     public FromRoutineAdapter.RoutineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.from_start_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.from_routine_list_item, parent, false);
         RoutineViewHolder viewHolder = new RoutineViewHolder(view);
         return viewHolder;
     }
@@ -60,7 +60,7 @@ public class FromRoutineAdapter extends RecyclerView.Adapter<FromRoutineAdapter.
 
     @Override
     public void onItemDismiss(int position) {
-        dtInterface.setRoutine(mRoutines.get(position));
+        dtInterface.setObject(mRoutines.get(position));
         this.notifyItemRemoved(position);
         this.notifyItemInserted(position);
     }

@@ -128,7 +128,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public Boolean validateSelected(ArrayList<Exercise> exercises){
         if(exercises.size() == 0){
-            Toast.makeText(mContext, "No selections made", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No exercises selected", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

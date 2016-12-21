@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
@@ -21,6 +22,7 @@ import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
+import com.epicodus.alainatraxler.a0x1.models.Workout;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
@@ -45,8 +47,10 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
     @Bind(R.id.Update) Button mUpdate;
     @Bind(R.id.Delete) Button mDelete;
     @Bind(R.id.Name) EditText mName;
+    @Bind(R.id.Search) SearchView mSearch;
 
     private ArrayList<Routine> mRoutines = new ArrayList<Routine>();
+    private ArrayList<Routine> mSearchArray = new ArrayList<Routine>();
     private ArrayList<Exercise> mExercisesTo = new ArrayList<Exercise>();
     private FromRoutineAdapter mFromRoutineAdapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -60,7 +64,9 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
         setContentView(R.layout.activity_routine);
         ButterKnife.bind(this);
 
-        mFromRoutineAdapter = new FromRoutineAdapter(getApplicationContext(), mRoutines, this);
+        initializeSearch();
+
+        mFromRoutineAdapter = new FromRoutineAdapter(getApplicationContext(), mSearchArray, this);
         mRecyclerViewFrom.setAdapter(mFromRoutineAdapter);
         RecyclerView.LayoutManager FromLayoutManager =
                 new LinearLayoutManager(RoutineActivity.this);
@@ -188,6 +194,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Routine routine = dataSnapshot.getValue(Routine.class);
                 mRoutines.add(routine);
+                mSearchArray.add(routine);
                 mFromRoutineAdapter.notifyDataSetChanged();
             }
 
@@ -208,6 +215,28 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void initializeSearch(){
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArray.clear();
+                for(int i = 0; i < mRoutines.size(); i++){
+                    Routine routine = mRoutines.get(i);
+                    if(routine.getName().toLowerCase().contains(newText.toLowerCase())){
+                        mSearchArray.add(routine);
+                    }
+                }
+                mFromRoutineAdapter.notifyDataSetChanged();
+                return false;
             }
         });
     }

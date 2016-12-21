@@ -128,7 +128,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public Boolean validateSelected(ArrayList<Exercise> exercises){
         if(exercises.size() == 0){
-            Toast.makeText(mContext, "Please select a workout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No selections made", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -154,17 +154,21 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
                 String time = exercise.getTime();
-                String minutes = time.substring(0,time.indexOf(":"));
-                String seconds = time.substring(time.indexOf(":") + 1, time.length());
-
-                if(minutes.length() <=0 || seconds.length() != 2 || Integer.parseInt(minutes) + Integer.parseInt(seconds) <= 0){
-                    Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                if(time.length() == 0 || !time.contains(":")){
                     return false;
-                }
+                }else{
+                    String minutes = time.substring(0,time.indexOf(":"));
+                    String seconds = time.substring(time.indexOf(":") + 1, time.length());
 
-                if(exercise.getDistance() <= 0){
-                    Toast.makeText(mContext, "Please enter a valid distance for " + exercise.getName(), Toast.LENGTH_SHORT).show();
-                    return false;
+                    if(minutes.length() <=0 || seconds.length() != 2 || Integer.parseInt(minutes) + Integer.parseInt(seconds) <= 0){
+                        Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                    if(exercise.getDistance() <= 0){
+                        Toast.makeText(mContext, "Please enter a valid distance for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
                 }
             }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
                 if(exercise.getSets() <= 0){

@@ -96,7 +96,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo) && validateName(mName.getText().toString())){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){
                 Toast.makeText(BuildActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
 
@@ -108,7 +108,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
                 startActivity(intent);
             }
         }if(v == mDo){
-            if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
+            if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo)){
                 Intent intent = new Intent(BuildActivity.this, StartActivity.class);
                 intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
                 startActivity(intent);

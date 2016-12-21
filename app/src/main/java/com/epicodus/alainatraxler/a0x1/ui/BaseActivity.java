@@ -185,4 +185,29 @@ public class BaseActivity extends AppCompatActivity {
 
         return true;
     }
+
+    public Boolean validateFieldsAllowEmpty(ArrayList<Exercise> exercises){
+        for(int i = 0; i < exercises.size(); i++){
+            Exercise exercise = exercises.get(i);
+            if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                String time = exercise.getTime();
+
+                if(time.length() == 0){
+                    return true;
+                }else if(!time.contains(":")){
+                    Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName() + ", or leave blank", Toast.LENGTH_SHORT).show();
+                    return false;
+                }else{
+                    String minutes = time.substring(0,time.indexOf(":"));
+                    String seconds = time.substring(time.indexOf(":") + 1, time.length());
+
+                    if(minutes.length() <=0 || seconds.length() != 2){
+                        Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName() + ", or leave blank", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

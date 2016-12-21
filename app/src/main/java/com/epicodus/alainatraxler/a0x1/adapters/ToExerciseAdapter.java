@@ -106,9 +106,13 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         @Bind(R.id.ExerciseName) TextView mExerciseName;
         @Bind(R.id.At) TextView mAt;
         @Bind(R.id.X) TextView mX;
+        @Bind(R.id.Pipe) TextView mPipe;
+        @Bind(R.id.Ex) TextView mEx;
         @Bind(R.id.Sets) EditText mSets;
         @Bind(R.id.Reps) EditText mReps;
         @Bind(R.id.Weight) EditText mWeight;
+        @Bind(R.id.Time) EditText mTime;
+        @Bind(R.id.Distance) EditText mDistance;
         @Bind(R.id.Drag) ImageView mDrag;
 
         private Context mContext;
@@ -130,10 +134,33 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mAt.setVisibility(View.INVISIBLE);
         }
 
+        private void disablePipe(){
+            mPipe.setVisibility(View.INVISIBLE);
+        }
+
+        private void disableTimeandDistance(){
+            mEx.setVisibility(View.INVISIBLE);
+            mTime.setVisibility(View.INVISIBLE);
+            mDistance.setVisibility(View.INVISIBLE);
+        }
+
+        private void disableRepsAndWeight(){
+            mReps.setVisibility(View.INVISIBLE);
+            mSets.setVisibility(View.INVISIBLE);
+            mX.setVisibility(View.INVISIBLE);
+        }
+
         public void bindExercise(final Exercise exercise) {
             if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
                 disableWeight();
-
+                disablePipe();
+                disableTimeandDistance();
+            }else if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                disablePipe();
+                disableTimeandDistance();
+            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                disablePipe();
+                disableWeight();
             }
 
             mExercise = exercise;

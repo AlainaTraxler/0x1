@@ -32,14 +32,44 @@
         >
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:imeOptions="flagNoExtractUi"
+            android:gravity="center"
+            android:id="@+id/Time"
+            android:hint="time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="x"
+            android:id="@+id/Ex" />
+
+        <EditText
+            android:layout_width="55dp"
+            android:imeOptions="flagNoExtractUi"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/Distance"
+            android:hint="miles" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="|"
+            android:id="@+id/Pipe" />
+
+        <EditText
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:imeOptions="flagNoExtractUi"
             android:id="@+id/Reps"
             android:layout_alignBottom="@+id/Weight"
-            android:layout_toLeftOf="@+id/textView"
+            android:layout_toLeftOf="@+id/Pipe"
             android:gravity="center"
             android:hint="reps" />
 
@@ -49,12 +79,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="x"
             android:id="@+id/X"
-            android:layout_alignTop="@+id/textView"
+            android:layout_alignTop="@+id/Pipe"
             android:layout_toLeftOf="@+id/Reps"
             android:layout_toStartOf="@+id/Reps" />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:imeOptions="flagNoExtractUi"
@@ -78,7 +108,7 @@
             android:layout_toStartOf="@+id/Weight" />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="10"

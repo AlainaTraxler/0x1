@@ -120,6 +120,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                     mExercisesTo.clear();
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
+                    mName.setText("");
                     mRoutines.clear();
                     getRoutines();
                     mFromRoutineAdapter.notifyDataSetChanged();

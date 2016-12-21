@@ -153,13 +153,27 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mX.setVisibility(View.INVISIBLE);
         }
 
+        private void enableViews(){
+            mReps.setVisibility(View.VISIBLE);
+            mSets.setVisibility(View.VISIBLE);
+            mX.setVisibility(View.VISIBLE);
+            mEx.setVisibility(View.VISIBLE);
+            mTime.setVisibility(View.VISIBLE);
+            mDistance.setVisibility(View.VISIBLE);
+            mWeight.setVisibility(View.VISIBLE);
+            mAt.setVisibility(View.VISIBLE);
+        }
+
         public void bindExercise(final Exercise exercise) {
             if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                enableViews();
                 disableWeight();
                 disableTimeandDistance();
             }else if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                enableViews();
                 disableTimeandDistance();
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                enableViews();
                 disableWeight();
                 disableRepsAndSets();
             }

@@ -31,6 +31,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -42,6 +44,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Bind(R.id.recyclerViewFrom) RecyclerView mRecyclerViewFrom;
     @Bind(R.id.recyclerViewTo) RecyclerView mRecyclerViewTo;
     @Bind(R.id.Save) Button mSave;
+    @Bind(R.id.Do) Button mDo;
     @Bind(R.id.Name) EditText mName;
 
     private FromExerciseAdapter mFromAdapter;
@@ -83,6 +86,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mItemTouchHelper.attachToRecyclerView(mRecyclerViewTo);
 
         mSave.setOnClickListener(this);
+        mDo.setOnClickListener(this);
 
 //        overrideFonts(mContext, findViewById(android.R.id.content), Constants.FONT_MAIN);
     }
@@ -90,7 +94,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Override
     public void onClick(View v){
         if(v == mSave){
-            if(validate()){
+            if(validateSelected() && validateFields() && validateName()){
                 Toast.makeText(BuildActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
                 Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
 
@@ -98,33 +102,45 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
                 routine.setPushId(pushRef.getKey());
                 pushRef.setValue(routine);
 
-//                Intent intent = new Intent(BuildActivity.this, MainActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(BuildActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        }if(v == mDo){
+            if(validateSelected() && validateFields()){
+                Intent intent = new Intent(BuildActivity.this, StartActivity.class);
+                intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
+                startActivity(intent);
             }
         }
     }
 
-    public Boolean validate(){
+    public Boolean validateName() {
+        if (mName.getText().toString().equals("")) {
+            Toast.makeText(BuildActivity.this, "Please name this routine", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean validateSelected(){
         if(mExercisesTo.size() == 0){
-            Toast.makeText(BuildActivity.this, "You haven't selected anything!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BuildActivity.this, "Please select a workout", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
 
-        if(mName.getText().toString().equals("")){
-            Toast.makeText(BuildActivity.this, "You need to name your routine", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
+    public Boolean validateFields(){
         for(int i = 0; i < mExercisesTo.size(); i++){
             Exercise exercise = mExercisesTo.get(i);
             if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
                 if(exercise.getSets() <= 0 || exercise.getReps() <= 0 || exercise.getWeight() <= 0){
-                    Toast.makeText(BuildActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuildActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
                 if(exercise.getTime() <= 0 || exercise.getDistance() <= 0){
-                    Toast.makeText(BuildActivity.this, "Something's wrong! Make sure all fields are filled out.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuildActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }

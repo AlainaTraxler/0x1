@@ -5,6 +5,7 @@ import android.provider.Contacts;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +21,12 @@ import com.epicodus.alainatraxler.a0x1.Constants;
 import com.epicodus.alainatraxler.a0x1.R;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
+import com.epicodus.alainatraxler.a0x1.util.DoubleFilterMinMax;
+import com.epicodus.alainatraxler.a0x1.util.InputFilterMinMax;
 import com.epicodus.alainatraxler.a0x1.util.ItemTouchHelperAdapter;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -106,7 +110,6 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         @Bind(R.id.ExerciseName) TextView mExerciseName;
         @Bind(R.id.At) TextView mAt;
         @Bind(R.id.X) TextView mX;
-        @Bind(R.id.Pipe) TextView mPipe;
         @Bind(R.id.Ex) TextView mEx;
         @Bind(R.id.Sets) EditText mSets;
         @Bind(R.id.Reps) EditText mReps;
@@ -117,9 +120,13 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
         private Context mContext;
 
-        TextWatcher mSetWatcher;
-        TextWatcher mRepWatcher;
-        TextWatcher mWeightWatcher;
+        private TextWatcher mSetWatcher;
+        private TextWatcher mRepWatcher;
+        private TextWatcher mWeightWatcher;
+        private TextWatcher mTimeWatcher;
+        private TextWatcher mDistanceWatcher;
+
+        private Boolean mRecall = true;
 
         private Exercise mExercise;
 
@@ -134,17 +141,13 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mAt.setVisibility(View.INVISIBLE);
         }
 
-        private void disablePipe(){
-            mPipe.setVisibility(View.INVISIBLE);
-        }
-
         private void disableTimeandDistance(){
             mEx.setVisibility(View.INVISIBLE);
             mTime.setVisibility(View.INVISIBLE);
             mDistance.setVisibility(View.INVISIBLE);
         }
 
-        private void disableRepsAndWeight(){
+        private void disableRepsAndSets(){
             mReps.setVisibility(View.INVISIBLE);
             mSets.setVisibility(View.INVISIBLE);
             mX.setVisibility(View.INVISIBLE);
@@ -153,20 +156,19 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         public void bindExercise(final Exercise exercise) {
             if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
                 disableWeight();
-                disablePipe();
                 disableTimeandDistance();
             }else if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
-                disablePipe();
                 disableTimeandDistance();
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
-                disablePipe();
                 disableWeight();
+                disableRepsAndSets();
             }
 
             mExercise = exercise;
+            mExerciseName.setText(exercise.getName());
 
             if(exercise.getSets() != null){
-                mExerciseName.setText(exercise.getName());
+                mSets.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
 
                 mSetWatcher = new TextWatcher() {
                     @Override
@@ -197,6 +199,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             }
 
             if(exercise.getReps() != null){
+                mReps.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+
                 mRepWatcher = new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -227,6 +231,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             }
 
             if(exercise.getWeight() != null){
+                mWeight.setFilters(new InputFilter[]{ new DoubleFilterMinMax("1", "1000")});
+
                 mWeightWatcher = new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -237,7 +243,11 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         String catcher = mWeight.getText().toString();
                         if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setWeight(Double.parseDouble(catcher));
+                            Log.v("Before:", catcher);
+                            Double formattedWeight = Double.parseDouble(String.format("%.2f", Double.parseDouble(catcher)));
+                            Log.v("After:", String.valueOf(formattedWeight));
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(formattedWeight);
+//                            mWeight.setText(String.valueOf(formattedWeight));
                         }else if(mExercises.indexOf(exercise) != -1){
                             mExercises.get(mExercises.indexOf(exercise)).setWeight(0.0);
                         }
@@ -255,6 +265,70 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                     mWeight.setText(String.valueOf(exercise.getWeight()));
                 }
             }
+
+            if(exercise.getTime() != null){
+                mTime.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+
+                mTimeWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mTime.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setTime(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setTime(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mTime.addTextChangedListener(mTimeWatcher);
+
+                if(exercise.getTime() != 0){
+                    mTime.setText(String.valueOf(exercise.getTime()));
+                }
+            }
+
+            if(exercise.getDistance() != null){
+                mDistance.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+
+                mDistanceWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mDistance.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mDistance.addTextChangedListener(mDistanceWatcher);
+
+                if(exercise.getDistance() != 0){
+                    mDistance.setText(String.valueOf(exercise.getDistance()));
+                }
+            }
         }
 
         public void onDismiss(){
@@ -268,6 +342,14 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
             if(mExercise.getWeight() != null){
                 mWeight.setText("");
+            }
+
+            if(mExercise.getTime() != null){
+                mTime.setText("");
+            }
+
+            if(mExercise.getDistance() != null){
+                mDistance.setText("");
             }
         }
 

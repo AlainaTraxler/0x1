@@ -36,6 +36,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
@@ -207,33 +208,21 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     public void setObject(Object object){}
 
     public void getRoutines(){
-        dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addChildEventListener(new ChildEventListener() {
+        dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Routine routine = dataSnapshot.getValue(Routine.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mRoutines.clear();
+                mSearchArrayRoutines.clear();
+                mSearchArrayRoutineNames.clear();
 
-                mRoutines.add(routine);
-                mSearchArrayRoutines.add(routine);
-
-                mRoutineNames.add(routine.getName());
-                mSearchArrayRoutineNames.add(routine.getName());
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Routine routine = snapshot.getValue(Routine.class);
+                    mRoutines.add(routine);
+                    mSearchArrayRoutines.add(routine);
+                    mSearchArrayRoutineNames.add(routine.getName());
+                }
 
                 mFromStartAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -244,33 +233,21 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void getExercises(){
-        dbExercises.addChildEventListener(new ChildEventListener() {
+        dbExercises.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Exercise exercise = dataSnapshot.getValue(Exercise.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mExercises.clear();
+                mSearchArrayExercises.clear();
+                mSearchArrayExcerciseNames.clear();
 
-                mExercises.add(exercise);
-                mSearchArrayExercises.add(exercise);
-
-                mExerciseNames.add(exercise.getName());
-                mSearchArrayExcerciseNames.add(exercise.getName());
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Exercise exercise = snapshot.getValue(Exercise.class);
+                    mExercises.add(exercise);
+                    mSearchArrayExercises.add(exercise);
+                    mSearchArrayExcerciseNames.add(exercise.getName());
+                }
 
                 mFromStartAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

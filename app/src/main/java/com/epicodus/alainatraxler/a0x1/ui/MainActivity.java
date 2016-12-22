@@ -21,7 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
-    @Bind(R.id.System) Button mSystem;
     @Bind(R.id.Build) Button mBuild;
     @Bind(R.id.You) Button mYou;
     @Bind(R.id.Start) Button mStart;
@@ -32,7 +31,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mSystem.setOnClickListener(this);
         mBuild.setOnClickListener(this);
         mYou.setOnClickListener(this);
         mStart.setOnClickListener(this);
@@ -41,10 +39,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public void onClick(View v){
-        if(v == mSystem){
-            Intent intent = new Intent(MainActivity.this, SystemActivity.class);
-            startActivity(intent);
-        }else if(v == mBuild){
+        if(v == mBuild){
             Intent intent = new Intent(MainActivity.this, BuildActivity.class);
             startActivity(intent);
         }else if(v == mYou){

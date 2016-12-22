@@ -72,7 +72,8 @@
                     android:layout_below="@+id/password"
                     android:layout_alignLeft="@+id/password"
                     android:layout_alignStart="@+id/password"
-                    android:checked="true" />
+                    android:checked="true"
+                    android:buttonTint="#66BB6A" />
 
             </LinearLayout>
             <LinearLayout
@@ -87,7 +88,8 @@
                     android:layout_alignBaseline="@+id/rememberMe"
                     android:layout_alignBottom="@+id/rememberMe"
                     android:layout_toRightOf="@+id/email"
-                    android:layout_toEndOf="@+id/email" />
+                    android:layout_toEndOf="@+id/email"
+                    android:background="#EF5350" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -98,7 +100,8 @@
                     android:layout_alignLeft="@+id/signup"
                     android:layout_alignStart="@+id/signup"
                     android:layout_alignRight="@+id/signup"
-                    android:layout_alignEnd="@+id/signup" />
+                    android:layout_alignEnd="@+id/signup"
+                    android:background="#42A5F5" />
             </LinearLayout>
 
         </LinearLayout>

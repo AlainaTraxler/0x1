@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="4"
+        android:weightSum="3"
         android:layout_centerVertical="true">
 
         <Button
@@ -60,17 +60,17 @@
             android:layout_toRightOf="@+id/Build"
             android:layout_toEndOf="@+id/Build" />
 
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:text="System"
-            android:layout_weight="1"
-            android:id="@+id/System"
-            android:background="#FFA726"
-            android:textColor="#ffffff"
-            android:layout_below="@+id/imageView"
-            android:layout_toRightOf="@+id/You"
-            android:layout_toEndOf="@+id/You" />
+        <!--<Button-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="System"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/System"-->
+            <!--android:background="#FFA726"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:layout_below="@+id/imageView"-->
+            <!--android:layout_toRightOf="@+id/You"-->
+            <!--android:layout_toEndOf="@+id/You" />-->
 
     </LinearLayout>
 

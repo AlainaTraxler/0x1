@@ -38,7 +38,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Workouts"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -46,7 +47,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="num"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/Workouts" />
+                        android:id="@+id/Workouts"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -69,7 +71,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Routines"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -77,7 +80,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="num"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/Routines" />
+                        android:id="@+id/Routines"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -110,7 +114,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Weight Moved"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -119,7 +124,8 @@
                         android:text="num"
                         android:layout_marginTop="10dp"
                         android:id="@+id/WeightMoved"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -142,7 +148,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Distance Moved"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -151,7 +158,8 @@
                         android:text="num"
                         android:layout_marginTop="10dp"
                         android:id="@+id/DistanceMoved"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="#ffffff" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -182,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Reps"
-                        ></TextView>
+                        android:textColor="#ffffff"></TextView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +198,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="num"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/Reps" />
+                        android:id="@+id/Reps"
+                        android:textColor="#ffffff" />
 
                 </LinearLayout>
             </RelativeLayout>
@@ -213,7 +222,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Sets"
-                        android:id="@+id/textView4" />
+                        android:id="@+id/textView4"
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -221,7 +231,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="num"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/Sets" />
+                        android:id="@+id/Sets"
+                        android:textColor="#ffffff" />
 
                 </LinearLayout>
             </RelativeLayout>

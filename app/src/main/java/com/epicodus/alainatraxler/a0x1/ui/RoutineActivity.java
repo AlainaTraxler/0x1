@@ -32,6 +32,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
@@ -79,7 +80,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String currentName = mName.getText().toString();
                 if(currentName.length() > 0){
-                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' '){
+                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' ' || currentName.length() > 20){
                         mName.setText(previousName);
                         mName.setSelection(previousName.length());
                     }else{
@@ -138,6 +139,8 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                 DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
                 routine.setPushId(pushRef.getKey());
                 pushRef.setValue(routine);
+
+                getRoutines();
             }
         }else if(v == mDo){
             if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo)){
@@ -158,9 +161,6 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
 
                     mName.setText("");
                     getRoutines();
-                    mFromRoutineAdapter.notifyDataSetChanged();
-                }else{
-                    Toast.makeText(RoutineActivity.this, "No routine selected", Toast.LENGTH_SHORT).show();
                 }
             }
         }else if(v == mUpdate){
@@ -170,9 +170,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                 dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child("name").setValue(mName.getText().toString());
                 dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
 
-                mRoutines.clear();
                 getRoutines();
-                mFromRoutineAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -218,29 +216,21 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
 
     public void getRoutines(){
         Log.v(TAG, "Getting routines");
-        mRoutines.clear();
-        mSearchArray.clear();
-        dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addChildEventListener(new ChildEventListener() {
+        dbCurrentUser.child(Constants.DB_NODE_ROUTINES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Routine routine = dataSnapshot.getValue(Routine.class);
-                mRoutines.add(routine);
-                mSearchArray.add(routine);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mRoutines.clear();
+                mSearchArray.clear();
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Routine routine = snapshot.getValue(Routine.class);
+                    mRoutines.add(routine);
+                    mSearchArray.add(routine);
+                }
+
+                Log.v(TAG, mSearchArray.toString());
+
                 mFromRoutineAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

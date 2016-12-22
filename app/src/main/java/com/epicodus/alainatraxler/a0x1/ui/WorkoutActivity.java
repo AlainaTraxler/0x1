@@ -80,7 +80,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String currentName = mName.getText().toString();
                 if(currentName.length() > 0){
-                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' '){
+                    if(currentName.contains("\r") || currentName.contains("\n") || currentName.charAt(0) == ' ' || currentName.length() > 20){
                         mName.setText(previousName);
                         mName.setSelection(previousName.length());
                     }else{
@@ -158,9 +158,6 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
                     getWorkouts();
-                    mFromWorkoutAdapter.notifyDataSetChanged();
-                }else{
-                    Toast.makeText(WorkoutActivity.this, "No workout selected", Toast.LENGTH_SHORT).show();
                 }
             }
         }else if(v == mUpdate){

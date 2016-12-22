@@ -37,6 +37,8 @@ public class Exercise {
         }else if(type.equals(Constants.TYPE_BODYWEIGHT)){
             sets = 0;
             reps = 0;
+        }else if(type.equals(Constants.TYPE_TIME)){
+            time = "0:00";
         }
     }
 

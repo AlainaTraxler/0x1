@@ -37,7 +37,7 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="Build"
+            android:text="Make"
             android:id="@+id/Build"
             android:background="#42A5F5"
             android:textColor="#ffffff"

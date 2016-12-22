@@ -160,6 +160,7 @@ public class BaseActivity extends AppCompatActivity {
             }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
                 String time = exercise.getTime();
                 if(time.length() == 0 || !time.contains(":")){
+                    Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
                     return false;
                 }else{
                     String minutes = time.substring(0,time.indexOf(":"));
@@ -169,11 +170,11 @@ public class BaseActivity extends AppCompatActivity {
                         Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
                         return false;
                     }
+                }
 
-                    if(exercise.getDistance() <= 0){
-                        Toast.makeText(mContext, "Please enter a valid distance for " + exercise.getName(), Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
+                if(exercise.getDistance() <= 0){
+                    Toast.makeText(mContext, "Please enter a valid distance for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
                 }
             }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
                 if(exercise.getSets() <= 0){
@@ -185,6 +186,20 @@ public class BaseActivity extends AppCompatActivity {
                     Toast.makeText(mContext, "Please enter a valid number of reps for " + exercise.getName(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
+            }else if(exercise.getType().equals(Constants.TYPE_TIME)){
+                String time = exercise.getTime();
+                if(time.length() == 0 || !time.contains(":")){
+                    Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }else{
+                    String minutes = time.substring(0,time.indexOf(":"));
+                    String seconds = time.substring(time.indexOf(":") + 1, time.length());
+
+                    if(minutes.length() <=0 || seconds.length() != 2 || Integer.parseInt(minutes) + Integer.parseInt(seconds) <= 0){
+                        Toast.makeText(BaseActivity.this, "Please enter a valid time for " + exercise.getName(), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
             }
         }
 
@@ -194,7 +209,7 @@ public class BaseActivity extends AppCompatActivity {
     public Boolean validateFieldsAllowEmpty(ArrayList<Exercise> exercises){
         for(int i = 0; i < exercises.size(); i++){
             Exercise exercise = exercises.get(i);
-            if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+            if(exercise.getType().equals(Constants.TYPE_AEROBIC) || exercise.getType().equals(Constants.TYPE_TIME)){
                 String time = exercise.getTime();
 
                 if(time.length() == 0){

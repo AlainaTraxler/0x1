@@ -122,6 +122,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 //process line
+                Log.v(TAG, mLine);
                 String name = mLine.substring(0,mLine.indexOf("["));
                 String type = mLine.substring(mLine.indexOf("[") + 1,mLine.indexOf("]"));
 

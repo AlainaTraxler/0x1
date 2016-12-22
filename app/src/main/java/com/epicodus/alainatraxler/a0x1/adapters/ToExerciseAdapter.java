@@ -147,6 +147,11 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mDistance.setVisibility(View.INVISIBLE);
         }
 
+        private void disableDistance(){
+            mEx.setVisibility(View.INVISIBLE);
+            mDistance.setVisibility(View.INVISIBLE);
+        }
+
         private void disableRepsAndSets(){
             mReps.setVisibility(View.INVISIBLE);
             mSets.setVisibility(View.INVISIBLE);
@@ -165,17 +170,24 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         }
 
         public void bindExercise(final Exercise exercise) {
-            if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+            String type = exercise.getType();
+
+            if(type.equals(Constants.TYPE_BODYWEIGHT)){
                 enableViews();
                 disableWeight();
                 disableTimeandDistance();
-            }else if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+            }else if(type.equals(Constants.TYPE_WEIGHT)){
                 enableViews();
                 disableTimeandDistance();
-            }else if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+            }else if(type.equals(Constants.TYPE_AEROBIC)){
                 enableViews();
                 disableWeight();
                 disableRepsAndSets();
+            }else if(type.equals(Constants.TYPE_TIME)){
+                enableViews();
+                disableRepsAndSets();
+                disableWeight();
+                disableDistance();
             }
 
             mExercise = exercise;

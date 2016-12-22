@@ -118,7 +118,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="num"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/Moved"
+                        android:id="@+id/WeightMoved"
                         android:textAlignment="center" />
                 </LinearLayout>
             </RelativeLayout>

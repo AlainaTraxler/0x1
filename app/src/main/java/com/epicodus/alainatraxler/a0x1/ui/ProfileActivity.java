@@ -22,9 +22,12 @@ import butterknife.ButterKnife;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.Workouts) TextView mWorkouts;
-    @Bind(R.id.Moved) TextView mMoved;
+    @Bind(R.id.Routines) TextView mRoutines;
+    @Bind(R.id.WeightMoved) TextView mWeightMoved;
+    @Bind(R.id.DistanceMoved) TextView mDistanceMoved;
+    @Bind(R.id.Reps) TextView mReps;
+    @Bind(R.id.Sets) TextView mSets;
     @Bind((R.id.Logout)) Button mLogout;
-//    @Bind(R.id.Weight) TextView mWeight;
 
     long mTotalWeightMoved = 0;
 
@@ -34,8 +37,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
-        setWorkouts();
-        setMoved();
+        setStats();
 
         mLogout.setOnClickListener(this);
     }
@@ -48,48 +50,45 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void setWorkouts(){
-        dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setStats(){
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mWorkouts.setText(String.valueOf(dataSnapshot.getChildrenCount()));
-            }
+                int workouts = 0;
+                int routines = 0;
+                Double weightMoved = 0.0;
+                Double distanceMoved = 0.0;
+                int reps = 0;
+                int sets = 0;
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-    }
-
-    private void setMoved(){
-        dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Workout workout = dataSnapshot.getValue(Workout.class);
-                ArrayList<Exercise> exercises = workout.getExercises();
-
-                for(int i = 0; i < exercises.size(); i++){
-                    Exercise exercise = exercises.get(i);
-                    mTotalWeightMoved += exercise.getSets() * exercise.getReps();
+                for(DataSnapshot snapshot:dataSnapshot.child(Constants.DB_NODE_WORKOUTS).getChildren()){
+                    Workout workout = snapshot.getValue(Workout.class);
+                    workouts++;
+                    for(Exercise exercise:workout.getExercises()){
+                        if(exercise.getType().equals(Constants.TYPE_AEROBIC)){
+                            distanceMoved += exercise.getDistance();
+                        }else if(exercise.getType().equals(Constants.TYPE_BODYWEIGHT)){
+                            reps += exercise.getReps();
+                            sets += exercise.getSets();
+                        }else if(exercise.getType().equals(Constants.TYPE_WEIGHT)){
+                            reps += exercise.getReps();
+                            sets += exercise.getSets();
+                            weightMoved += exercise.getWeight();
+                        }
+                    }
                 }
 
-                mMoved.setText(String.valueOf(mTotalWeightMoved));
-            }
+                for(DataSnapshot snapshot:dataSnapshot.child(Constants.DB_NODE_ROUTINES).getChildren()){
+                    routines++;
+                }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                mWorkouts.setText(String.valueOf(workouts));
+                mRoutines.setText(String.valueOf(routines));
+                mWeightMoved.setText(String.valueOf(weightMoved));
+                mDistanceMoved.setText(String.valueOf(distanceMoved));
+                mReps.setText(String.valueOf(reps));
+                mSets.setText(String.valueOf(sets));
             }
 
             @Override
@@ -98,4 +97,5 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
 }

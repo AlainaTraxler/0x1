@@ -33,6 +33,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
@@ -207,29 +208,19 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
 
     public void getWorkouts(){
         Log.v(TAG, "Getting workouts");
-        mWorkouts.clear();
-        mSearchArray.clear();
-        dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addChildEventListener(new ChildEventListener() {
+
+        dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Workout workout = dataSnapshot.getValue(Workout.class);
-                mWorkouts.add(workout);
-                mSearchArray.add(workout);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mWorkouts.clear();
+                mSearchArray.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Workout workout = snapshot.getValue(Workout.class);
+                    mWorkouts.add(workout);
+                    mSearchArray.add(workout);
+                }
+
                 mFromWorkoutAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

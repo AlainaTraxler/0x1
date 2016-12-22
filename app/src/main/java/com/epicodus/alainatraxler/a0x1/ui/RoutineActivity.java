@@ -228,8 +228,6 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                     mSearchArray.add(routine);
                 }
 
-                Log.v(TAG, mSearchArray.toString());
-
                 mFromRoutineAdapter.notifyDataSetChanged();
             }
 

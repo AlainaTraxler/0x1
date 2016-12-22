@@ -28,6 +28,7 @@ import com.epicodus.alainatraxler.a0x1.adapters.FromExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.adapters.ToExerciseAdapter;
 import com.epicodus.alainatraxler.a0x1.models.Exercise;
 import com.epicodus.alainatraxler.a0x1.models.Routine;
+import com.epicodus.alainatraxler.a0x1.models.Workout;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
@@ -178,36 +179,15 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         dbExercises.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mExercises.clear();
+                mSearchArray.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Exercise exercise = snapshot.getValue(Exercise.class);
+                    mExercises.add(exercise);
+                    mSearchArray.add(exercise);
+                }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        dbExercises.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mExercises.add(dataSnapshot.getValue(Exercise.class));
-                mSearchArray.add(dataSnapshot.getValue(Exercise.class));
                 mFromAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

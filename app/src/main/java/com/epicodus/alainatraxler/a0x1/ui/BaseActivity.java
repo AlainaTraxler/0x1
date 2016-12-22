@@ -81,10 +81,12 @@ public class BaseActivity extends AppCompatActivity {
                 if (mCurrentUser != null && mContext instanceof LoginActivity) {
                     Log.v(TAG, "Redirecting to main");
                     Intent intent = new Intent(mContext, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else if(mCurrentUser == null && !(mContext instanceof LoginActivity)){
                     Log.v(TAG, "Redirecting to login");
                     Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
             }

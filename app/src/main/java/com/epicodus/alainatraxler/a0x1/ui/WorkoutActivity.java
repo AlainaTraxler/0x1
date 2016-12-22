@@ -158,6 +158,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
                     mExercisesTo.clear();
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
+                    mSearch.setQuery("", false);
                     getWorkouts();
                 }
             }

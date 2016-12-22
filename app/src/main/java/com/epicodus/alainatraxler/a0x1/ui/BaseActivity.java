@@ -77,10 +77,13 @@ public class BaseActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                mCurrentUser = mAuth.getCurrentUser();
                 if (mCurrentUser != null && mContext instanceof LoginActivity) {
+                    Log.v(TAG, "Redirecting to main");
                     Intent intent = new Intent(mContext, MainActivity.class);
                     startActivity(intent);
                 } else if(mCurrentUser == null && !(mContext instanceof LoginActivity)){
+                    Log.v(TAG, "Redirecting to login");
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     startActivity(intent);
                 }

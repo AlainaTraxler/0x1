@@ -2,6 +2,8 @@ package com.epicodus.alainatraxler.a0x1.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.epicodus.alainatraxler.a0x1.Constants;
@@ -18,9 +20,10 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.Workouts) TextView mWorkouts;
     @Bind(R.id.Moved) TextView mMoved;
+    @Bind((R.id.Logout)) Button mLogout;
 //    @Bind(R.id.Weight) TextView mWeight;
 
     long mTotalWeightMoved = 0;
@@ -33,6 +36,16 @@ public class ProfileActivity extends BaseActivity {
 
         setWorkouts();
         setMoved();
+
+        mLogout.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v == mLogout){
+            mCurrentUser = null;
+            mAuth.signOut();
+        }
     }
 
     private void setWorkouts(){

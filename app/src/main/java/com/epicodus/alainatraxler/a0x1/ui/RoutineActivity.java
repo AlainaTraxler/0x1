@@ -160,6 +160,7 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
                     mToAdapter.notifyItemRangeRemoved(0, catcher);
 
                     mName.setText("");
+                    mSearch.setQuery("", false);
                     getRoutines();
                 }
             }

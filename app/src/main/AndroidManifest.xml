@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.LoginActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.SystemActivity" />
         <activity

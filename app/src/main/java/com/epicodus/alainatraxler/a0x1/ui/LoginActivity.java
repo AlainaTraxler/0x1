@@ -77,8 +77,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             Toast.makeText(LoginActivity.this, "Account creation successful", Toast.LENGTH_SHORT).show();
                             if(mRememberMe.isChecked()){
                                 mEditor.putString("Remember", "true").apply();
-                                Intent intent = new Intent(mContext, MainActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(mContext, MainActivity.class);
+//                                startActivity(intent);
                             }
                         }
 
@@ -110,8 +110,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             if(mRememberMe.isChecked()){
                                 mEditor.putString("Remember", "true").apply();
-                                Intent intent = new Intent(mContext, MainActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(mContext, MainActivity.class);
+//                                startActivity(intent);
                             }
                         }
 

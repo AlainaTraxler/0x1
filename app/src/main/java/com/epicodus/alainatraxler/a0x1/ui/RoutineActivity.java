@@ -166,12 +166,12 @@ public class RoutineActivity extends BaseActivity implements DataTransferInterfa
             }
         }else if(v == mUpdate){
             if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){
-                Toast.makeText(RoutineActivity.this, "Routine updated", Toast.LENGTH_SHORT).show();
-
-                dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child("name").setValue(mName.getText().toString());
-                dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
-
-                getRoutines();
+                Intent intent = new Intent(RoutineActivity.this, BuildActivity.class);
+                intent.putExtra("exercises", Parcels.wrap(mExercisesTo));
+                intent.putExtra("inUpdate", true);
+                intent.putExtra("routineName", mName.getText().toString());
+                intent.putExtra("currentPushId", currentPushId);
+                startActivity(intent);
             }
         }
     }

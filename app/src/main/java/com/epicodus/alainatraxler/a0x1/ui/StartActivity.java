@@ -2,6 +2,7 @@ package com.epicodus.alainatraxler.a0x1.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,6 +72,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
     private Boolean mOnRoutine = true;
     private String previousName = "";
+    private Boolean mInUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,14 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         }
 
         initializeSearch();
+
+        mInUpdate = getIntent().getBooleanExtra("inUpdate", false);
+
+        if(mInUpdate){
+            mDone.setText("Update");
+            mDone.setBackgroundColor(Color.parseColor("#66BB6A"));
+            mExercisesTo = Parcels.unwrap(getIntent().getParcelableExtra("exercises"));
+        }
 
         mSource.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -162,15 +172,22 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v){
         if(v == mDone){
             if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
-                Toast.makeText(StartActivity.this, "Workout completed", Toast.LENGTH_SHORT).show();
+                if(mInUpdate){
+                    Toast.makeText(StartActivity.this, "Workout updated", Toast.LENGTH_SHORT).show();
+                    String currentPushId = getIntent().getStringExtra("currentPushId");
 
-                Workout workout = new Workout(mExercisesTo);
-                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).push();
-                workout.setPushId(pushRef.getKey());
-                pushRef.setValue(workout);
+                    dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
+                }else{
+                    Toast.makeText(StartActivity.this, "Workout completed", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivity(intent);
+                    Workout workout = new Workout(mExercisesTo);
+                    DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_WORKOUTS).push();
+                    workout.setPushId(pushRef.getKey());
+                    pushRef.setValue(workout);
+
+                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         }if(v == mSave){
             if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){

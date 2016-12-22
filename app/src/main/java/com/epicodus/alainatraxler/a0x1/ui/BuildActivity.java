@@ -2,6 +2,7 @@ package com.epicodus.alainatraxler.a0x1.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.epicodus.alainatraxler.a0x1.models.Workout;
 import com.epicodus.alainatraxler.a0x1.util.DataTransferInterface;
 import com.epicodus.alainatraxler.a0x1.util.OnStartDragListener;
 import com.epicodus.alainatraxler.a0x1.util.SimpleItemTouchHelperCallback;
+import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +64,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     private ItemTouchHelper mItemTouchHelper;
 
     private String previousName = "";
+    private Boolean mInUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,15 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         ButterKnife.bind(this);
 
         initializeSearch();
+
+        mInUpdate = getIntent().getBooleanExtra("inUpdate", false);
+
+        if(mInUpdate){
+            mSave.setText("Update");
+            mSave.setBackgroundColor(Color.parseColor("#66BB6A"));
+            mName.setText(getIntent().getStringExtra("routineName"));
+            mExercisesTo = Parcels.unwrap(getIntent().getParcelableExtra("exercises"));
+        }
 
         mName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,13 +146,21 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     public void onClick(View v){
         if(v == mSave){
             if(validateSelected(mExercisesTo) && validateFieldsAllowEmpty(mExercisesTo) && validateName(mName.getText().toString())){
-                Toast.makeText(BuildActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
-                Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
+                if(mInUpdate){
+                    Toast.makeText(BuildActivity.this, "Routine updated", Toast.LENGTH_SHORT).show();
 
-                DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
-                routine.setPushId(pushRef.getKey());
-                pushRef.setValue(routine);
+                    String currentPushId = getIntent().getStringExtra("currentPushId");
 
+                    dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child("name").setValue(mName.getText().toString());
+                    dbCurrentUser.child(Constants.DB_NODE_ROUTINES).child(currentPushId).child(Constants.DB_NODE_EXERCISES).setValue(mExercisesTo);
+                }else{
+                    Toast.makeText(BuildActivity.this, "Routine created", Toast.LENGTH_SHORT).show();
+                    Routine routine = new Routine(mName.getText().toString(), mExercisesTo);
+
+                    DatabaseReference pushRef = dbCurrentUser.child(Constants.DB_NODE_ROUTINES).push();
+                    routine.setPushId(pushRef.getKey());
+                    pushRef.setValue(routine);
+                }
                 Intent intent = new Intent(BuildActivity.this, MainActivity.class);
                 startActivity(intent);
             }

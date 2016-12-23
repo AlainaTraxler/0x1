@@ -77,7 +77,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
     public void onBindViewHolder(final ToExerciseAdapter.ExerciseViewHolder holder, int position) {
         Log.v("Binding view", mExercises.get(position).getName());
 
-        holder.setsCustomEditTextListener.updatePosition(holder.getAdapterPosition());
+//        holder.setsCustomEditTextListener.updatePosition(holder.getAdapterPosition());
 
         holder.bindExercise(mExercises.get(position));
         mViewHolder = holder;
@@ -163,15 +163,15 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
         private Exercise mExercise;
 
-        public ExerciseViewHolder(View itemView, MyCustomEditTextListener myCustomEditTextListener) {
+        public ExerciseViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
             mContext = itemView.getContext();
             mItemView = itemView;
 
-            this.setsCustomEditTextListener = myCustomEditTextListener;
-            mSets.addTextChangedListener(setsCustomEditTextListener);
+//            this.setsCustomEditTextListener = myCustomEditTextListener;
+//            mSets.addTextChangedListener(setsCustomEditTextListener);
         }
 
         private void disableWeight(){
@@ -298,8 +298,8 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
             Log.v("--------------------","--");
 
-            if(!mSets.getText().toString().equals("")){
-                if(Integer.parseInt(mSets.getText().toString()) > 1){
+            if(exercise.getSets() != null){
+                if(exercise.getSets() > 1){
                     mSplit.setVisibility(View.VISIBLE);
                 }else{
                     mSplit.setVisibility(View.INVISIBLE);
@@ -308,6 +308,192 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
                 mSplit.setVisibility(View.INVISIBLE);
             }
             mSplit.setOnClickListener(this);
+
+            if(exercise.getSets() != null){
+                mSets.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+
+
+                mSets.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        Log.v("SetsWatcher", "Triggered");
+
+                        String catcher = mSets.getText().toString();
+                        Log.v("---", "---");
+                        Log.v("!!!", mExercise.toString());
+                        for(Exercise exerciseItem:mExercises){
+                            Log.v("Sets", String.valueOf(exerciseItem.getSets()));
+                        }
+                        Log.v("---", "---");
+                        Log.v("vPosition", String.valueOf(mExercises.indexOf(exercise)));
+                        Log.v("AdapterPosition", String.valueOf(thisCatch));
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+
+                            if(Integer.parseInt(catcher) > 1){
+                                mSplit.setVisibility(View.VISIBLE);
+                            }else{
+                                mSplit.setVisibility(View.INVISIBLE);
+                            }
+
+
+
+//                            dtInterface.updateExercise(getAdapterPosition(), "sets", Integer.parseInt(catcher));
+                            Log.v("Index of exercise:", String.valueOf(mExercises.indexOf(exercise)));
+                            mExercises.get(getAdapterPosition()).setSets(Integer.parseInt(catcher));
+                            Log.v("mExercises Size", String.valueOf(mExercises.size()));
+                            Log.v("***", "***");
+                            for(Exercise exerciseItem:mExercises){
+                                Log.v("Sets", String.valueOf(exerciseItem.getSets()));
+                            }
+                            Log.v("***", "***");
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setSets(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                if(exercise.getSets() != 0){
+                    mSets.setText(String.valueOf(exercise.getSets()));
+                }
+            }
+
+            if(exercise.getReps() != null){
+                mReps.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+
+                mRepWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mReps.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setReps(Integer.parseInt(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setReps(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mReps.addTextChangedListener(mRepWatcher);
+
+                if(exercise.getReps() != 0){
+                    mReps.setText(String.valueOf(exercise.getReps()));
+                }
+            }
+
+            if(exercise.getWeight() != null){
+                mWeight.setFilters(new InputFilter[]{ new DoubleFilterMinMax("1", "1000")});
+
+                mWeightWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mWeight.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            Log.v("Before:", catcher);
+                            Double formattedWeight = Double.parseDouble(String.format("%.2f", Double.parseDouble(catcher)));
+                            Log.v("After:", String.valueOf(formattedWeight));
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(formattedWeight);
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setWeight(0.0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mWeight.addTextChangedListener(mWeightWatcher);
+
+                if(exercise.getWeight() != 0){
+                    mWeight.setText(String.valueOf(exercise.getWeight()));
+                }
+            }
+
+            if(exercise.getTime() != null){
+                mTimeWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mTime.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setTime(catcher);
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setTime("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mTime.addTextChangedListener(mTimeWatcher);
+
+                if(exercise.getTime().length() != 0 && !(mExercises.get(mExercises.indexOf(exercise)).getTime().equals("0:00"))){
+                    mTime.setText(String.valueOf(exercise.getTime()));
+                }
+            }
+
+            if(exercise.getDistance() != null){
+                mDistance.setFilters(new InputFilter[]{ new DoubleFilterMinMax("1", "1000")});
+
+                mDistanceWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String catcher = mDistance.getText().toString();
+                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(Double.parseDouble(catcher));
+                        }else if(mExercises.indexOf(exercise) != -1){
+                            mExercises.get(mExercises.indexOf(exercise)).setDistance(0.0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                };
+
+                mDistance.addTextChangedListener(mDistanceWatcher);
+
+                if(exercise.getDistance() != 0){
+                    mDistance.setText(String.valueOf(exercise.getDistance()));
+                }
+            }
 
         }
         private class MyCustomEditTextListener implements TextWatcher {

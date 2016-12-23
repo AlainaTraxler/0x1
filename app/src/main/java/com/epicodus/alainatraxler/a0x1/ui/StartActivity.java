@@ -218,7 +218,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void setValues(Exercise exercise){
-        mExercisesTo.add(exercise);
+        mExercisesTo.add(exercise.clone(exercise));
         mToAdapter.notifyDataSetChanged();
 
         View view = this.getCurrentFocus();

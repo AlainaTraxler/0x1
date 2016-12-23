@@ -177,7 +177,7 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
 
     @Override
     public void setValues(Exercise exercise) {
-        mExercisesTo.add(exercise);
+        mExercisesTo.add(exercise.clone(exercise));
         Log.v(">>>> Position", mExercisesTo.indexOf(exercise) + "");
         mToAdapter.notifyItemInserted(mExercisesTo.size()   );
 

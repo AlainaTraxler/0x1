@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Guest on 12/19/16.
  */
 @Parcel
-public class Exercise {
+public class Exercise{
     public String name;
     public Integer sets = null;
     public Integer reps = null;
@@ -40,6 +40,20 @@ public class Exercise {
         }else if(type.equals(Constants.TYPE_TIME)){
             time = "0:00";
         }
+    }
+
+    public Exercise clone(Exercise original){
+        Exercise clone = new Exercise(original.getName(), original.getType());
+
+        clone.setSets(clone.getSets());
+        clone.setReps(clone.getReps());
+        clone.setWeight(clone.getWeight());
+        clone.setTime(clone.getTime());
+        clone.setDistance(clone.getDistance());
+        clone.setAltNames(clone.getAltNames());
+        clone.setPushId(clone.getPushId());
+
+        return clone;
     }
 
     public String getName() {

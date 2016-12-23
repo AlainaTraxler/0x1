@@ -12,7 +12,7 @@
         android:text="Workouts"
         android:layout_weight="1"
         android:id="@+id/Workouts"
-        android:background="#EF5350"
+        android:background="#E57373"
         android:textColor="#ffffff" />
 
     <Button
@@ -21,7 +21,7 @@
         android:text="Routines"
         android:layout_weight="1"
         android:id="@+id/Routines"
-        android:background="#42A5F5"
+        android:background="#64B5F6"
         android:textColor="#ffffff" />
 
     <Button
@@ -30,6 +30,6 @@
         android:text="Profile"
         android:layout_weight="1"
         android:id="@+id/Profile"
-        android:background="#66BB6A"
+        android:background="#81C784"
         android:textColor="#ffffff" />
 </LinearLayout>

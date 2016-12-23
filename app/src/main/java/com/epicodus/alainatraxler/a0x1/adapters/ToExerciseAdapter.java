@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,32 +37,53 @@ import butterknife.ButterKnife;
  */
 public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.ExerciseViewHolder> implements ItemTouchHelperAdapter {
     private ArrayList<Exercise> mExercises = new ArrayList<>();
+    private ArrayList<Exercise> mExerciseReference = new ArrayList<>();
     private Context mContext;
+    private ToExerciseAdapter mAdapter;
 
     private ExerciseViewHolder mViewHolder;
+    private RecyclerView mRecyclerView;
 
     DataTransferInterface dtInterface;
 
     private OnStartDragListener mOnStartDragListener;
 
-    public ToExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface, OnStartDragListener onStartDragListener) {
+    public ToExerciseAdapter(Context context, ArrayList<Exercise> exercises, DataTransferInterface dtInterface, OnStartDragListener onStartDragListener, RecyclerView recyclerView) {
         mContext = context;
         mExercises = exercises;
         this.dtInterface = dtInterface;
         mOnStartDragListener = onStartDragListener;
+        mAdapter = this;
+        mRecyclerView = recyclerView;
+    }
+
+    public void setReference(ArrayList<Exercise> exercises){
+        mExerciseReference = exercises;
     }
 
     @Override
     public ToExerciseAdapter.ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.to_exercise_list_item, parent, false);
         ExerciseViewHolder viewHolder = new ExerciseViewHolder(view);
-        mViewHolder = viewHolder;
+//        mViewHolder = viewHolder;
         return viewHolder;
+    }
+
+    public void setLinearLayout(){
+
     }
 
     @Override
     public void onBindViewHolder(final ToExerciseAdapter.ExerciseViewHolder holder, int position) {
+        Log.v("Binding view", mExercises.get(position).getName());
+
+        holder.setsCustomEditTextListener.updatePosition(holder.getAdapterPosition());
+
         holder.bindExercise(mExercises.get(position));
+        mViewHolder = holder;
+
+
+
         holder.mDrag.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -74,6 +94,15 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             }
         });
     }
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView){
+        Log.v("Detach", "!!");
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ExerciseViewHolder holder){
+        Log.v("Detach from window", "!!");
+    }
 
     @Override
     public int getItemCount() {
@@ -82,6 +111,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        Log.v("item moving", "!!");
         notifyItemMoved(fromPosition, toPosition);
         Exercise catcher = mExercises.get(fromPosition);
 
@@ -102,11 +132,12 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         this.notifyItemRemoved(position);
     }
 
+
     public void resetExercises(){
         mExercises.clear();
     }
 
-    public class ExerciseViewHolder extends RecyclerView.ViewHolder{
+    public class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.ExerciseName) TextView mExerciseName;
         @Bind(R.id.At) TextView mAt;
         @Bind(R.id.X) TextView mX;
@@ -117,6 +148,7 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         @Bind(R.id.Time) EditText mTime;
         @Bind(R.id.Distance) EditText mDistance;
         @Bind(R.id.Drag) ImageView mDrag;
+        @Bind(R.id.Split) ImageView mSplit;
 
         private Context mContext;
         private View mItemView;
@@ -127,13 +159,19 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
         private TextWatcher mTimeWatcher;
         private TextWatcher mDistanceWatcher;
 
+        private MyCustomEditTextListener setsCustomEditTextListener;
+
         private Exercise mExercise;
 
-        public ExerciseViewHolder(View itemView) {
+        public ExerciseViewHolder(View itemView, MyCustomEditTextListener myCustomEditTextListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
             mContext = itemView.getContext();
             mItemView = itemView;
+
+            this.setsCustomEditTextListener = myCustomEditTextListener;
+            mSets.addTextChangedListener(setsCustomEditTextListener);
         }
 
         private void disableWeight(){
@@ -169,6 +207,25 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mAt.setVisibility(View.VISIBLE);
         }
 
+        public void onClick(View v){
+            Log.v("Click", "Active");
+            Log.v("Sets", mExercise.getSets().toString());
+            int catcher = mExercise.getSets();
+            if(v == mSplit){
+                int currentPosition = mExercises.indexOf(mExercise);
+                for(int i = 1; i <= catcher; i++){
+                    Log.v("Loop", "#" + i);
+                    Exercise exercise = mExercise;
+                    exercise.setSets(1);
+                    mExercises.add(currentPosition, exercise);
+                    Log.v("Current: " + currentPosition, " vs actual: " + mExercises.indexOf(exercise));
+                    mAdapter.notifyItemInserted(currentPosition);
+                }
+                mExercises.remove(currentPosition + catcher);
+                mAdapter.notifyItemRemoved(currentPosition + catcher);
+            }
+        }
+
         public void bindExercise(final Exercise exercise) {
             String type = exercise.getType();
 
@@ -193,164 +250,89 @@ public class ToExerciseAdapter extends RecyclerView.Adapter<ToExerciseAdapter.Ex
             mExercise = exercise;
             mExerciseName.setText(exercise.getName());
 
-            if(exercise.getSets() != null){
-                mSets.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
+            final int thisCatch = this.getLayoutPosition();
 
-                mSetWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
-                    }
+            Log.v("Setting values for " + mExercise.getName(), " @Layout " + this.getLayoutPosition() + "&Adapter " + this.getAdapterPosition());
 
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        String catcher = mSets.getText().toString();
-                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setSets(Integer.parseInt(catcher));
-                        }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setSets(0);
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-
-                mSets.addTextChangedListener(mSetWatcher);
-
-                if(exercise.getSets() != 0){
-                    mSets.setText(String.valueOf(exercise.getSets()));
-                }
+            if(exercise.getSets() != null && exercise.getSets() != 0){
+                Log.v("Sets were not null", "setting to " + exercise.getSets());
+                this.mSets.setText(String.valueOf(exercise.getSets()));
+            }else{
+                Log.v("Sets were null", "setting to blank");
+                this.mSets.setText("");
             }
 
-            if(exercise.getReps() != null){
-                mReps.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "1000")});
-
-                mRepWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        String catcher = mReps.getText().toString();
-                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setReps(Integer.parseInt(catcher));
-                        }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setReps(0);
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-
-                mReps.addTextChangedListener(mRepWatcher);
-
-                if(exercise.getReps() != 0){
-                    mReps.setText(String.valueOf(exercise.getReps()));
-                }
+            if(mExercise.getReps() != null && mExercise.getReps() != 0){
+                Log.v("Reps were not null", "setting to " + mExercise.getSets());
+                mReps.setText(String.valueOf(mExercise.getReps()));
+            }else{
+                Log.v("Reps were null", "setting to blank");
+                mReps.setText("");
             }
 
-            if(exercise.getWeight() != null){
-                mWeight.setFilters(new InputFilter[]{ new DoubleFilterMinMax("1", "1000")});
-
-                mWeightWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        String catcher = mWeight.getText().toString();
-                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            Log.v("Before:", catcher);
-                            Double formattedWeight = Double.parseDouble(String.format("%.2f", Double.parseDouble(catcher)));
-                            Log.v("After:", String.valueOf(formattedWeight));
-                            mExercises.get(mExercises.indexOf(exercise)).setWeight(formattedWeight);
-                        }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setWeight(0.0);
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-
-                mWeight.addTextChangedListener(mWeightWatcher);
-
-                if(exercise.getWeight() != 0){
-                    mWeight.setText(String.valueOf(exercise.getWeight()));
-                }
+            if(mExercise.getWeight() != null && mExercise.getWeight() != 0){
+                Log.v("Weight was not null", "setting to " + mExercise.getSets());
+                mWeight.setText(String.valueOf(mExercise.getWeight()));
+            }else{
+                Log.v("Weight was null", "setting to blank");
+                mWeight.setText("");
             }
 
-            if(exercise.getTime() != null){
-                mTimeWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        String catcher = mTime.getText().toString();
-                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setTime(catcher);
-                        }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setTime("");
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-
-                mTime.addTextChangedListener(mTimeWatcher);
-
-                if(exercise.getTime().length() != 0 && !(mExercises.get(mExercises.indexOf(exercise)).getTime().equals("0:00"))){
-                    mTime.setText(String.valueOf(exercise.getTime()));
-                }
+            if(mExercise.getTime() != null && !mExercise.getSets().equals("0:00")){
+                Log.v("Time was not null", "setting to " + mExercise.getSets());
+                mTime.setText(mExercise.getTime());
+            }else{
+                Log.v("Time was null", "setting to blank");
+                mTime.setText("");
             }
 
-            if(exercise.getDistance() != null){
-                mDistance.setFilters(new InputFilter[]{ new DoubleFilterMinMax("1", "1000")});
-
-                mDistanceWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        String catcher = mDistance.getText().toString();
-                        if(!catcher.equals("") && mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setDistance(Double.parseDouble(catcher));
-                        }else if(mExercises.indexOf(exercise) != -1){
-                            mExercises.get(mExercises.indexOf(exercise)).setDistance(0.0);
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-
-                mDistance.addTextChangedListener(mDistanceWatcher);
-
-                if(exercise.getDistance() != 0){
-                    mDistance.setText(String.valueOf(exercise.getDistance()));
+            if(mExercise.getDistance() != null){
+                if( mExercise.getDistance() != 0){
+                    Log.v("Distance was not null", "setting to " + mExercise.getSets());
+                    mDistance.setText(String.valueOf(mExercise.getDistance()));
                 }
+            }else{
+                Log.v("Distance was null", "setting to blank");
+                mDistance.setText("");
+            }
+
+            Log.v("--------------------","--");
+
+            if(!mSets.getText().toString().equals("")){
+                if(Integer.parseInt(mSets.getText().toString()) > 1){
+                    mSplit.setVisibility(View.VISIBLE);
+                }else{
+                    mSplit.setVisibility(View.INVISIBLE);
+                }
+            }else{
+                mSplit.setVisibility(View.INVISIBLE);
+            }
+            mSplit.setOnClickListener(this);
+
+        }
+        private class MyCustomEditTextListener implements TextWatcher {
+            private int position;
+
+            public void updatePosition(int position) {
+                this.position = position;
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                // no op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                mExercise.setSets(3);
+
+                Log.v("Custom working", "!!");
+                Log.v("Output", charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // no op
             }
         }
     }

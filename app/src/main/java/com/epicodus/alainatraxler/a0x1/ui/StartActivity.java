@@ -74,7 +74,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     private String previousName = "";
     private Boolean mInUpdate;
 
-    @Override
+    private RecyclerView.LayoutManager mToLayoutManager;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
@@ -147,12 +148,13 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
 
         mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
 
-        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this, mRecyclerViewTo);
         mRecyclerViewTo.setAdapter(mToAdapter);
-        RecyclerView.LayoutManager ToLayoutManager =
+        mToLayoutManager =
                 new LinearLayoutManager(StartActivity.this);
-        mRecyclerViewTo.setLayoutManager(ToLayoutManager);
+        mRecyclerViewTo.setLayoutManager(mToLayoutManager);
         mRecyclerViewTo.setHasFixedSize(true);
+
 
         ItemTouchHelper.Callback callbackFrom = new SimpleItemTouchHelperCallback(mFromStartAdapter);
         mItemTouchHelper = new ItemTouchHelper(callbackFrom);
@@ -169,8 +171,21 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         mSave.setOnClickListener(this);
     }
 
+    public ArrayList<Exercise> harvestExercises(){
+        ArrayList<Exercise> collectedExercises = new ArrayList<Exercise>();
+
+        int itemCount = mToLayoutManager.getItemCount();
+
+        for(int i = 0; i < itemCount; i++){
+            mToLayoutManager.findContainingItemView(mToLayoutManager.findViewByPosition(i));
+        }
+
+        return collectedExercises;
+    }
+
     public void onClick(View v){
         if(v == mDone){
+
             if(validateSelected(mExercisesTo) && validateFields(mExercisesTo)){
                 if(mInUpdate){
                     Toast.makeText(StartActivity.this, "Workout updated", Toast.LENGTH_SHORT).show();

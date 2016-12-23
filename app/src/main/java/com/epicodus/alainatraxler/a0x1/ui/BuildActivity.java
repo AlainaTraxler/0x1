@@ -117,12 +117,14 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
         mRecyclerViewFrom.setLayoutManager(FromLayoutManager);
         mRecyclerViewFrom.setHasFixedSize(true);
 
-        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this, mRecyclerViewTo);
         mRecyclerViewTo.setAdapter(mToAdapter);
         RecyclerView.LayoutManager ToLayoutManager =
                 new LinearLayoutManager(BuildActivity.this);
         mRecyclerViewTo.setLayoutManager(ToLayoutManager);
         mRecyclerViewTo.setHasFixedSize(true);
+
+        mToAdapter.setReference(mExercises);
 
         mRecyclerViewFrom.setItemAnimator(new SlideInLeftAnimator());
 
@@ -176,7 +178,8 @@ public class BuildActivity extends BaseActivity implements DataTransferInterface
     @Override
     public void setValues(Exercise exercise) {
         mExercisesTo.add(exercise);
-        mToAdapter.notifyDataSetChanged();
+        Log.v(">>>> Position", mExercisesTo.indexOf(exercise) + "");
+        mToAdapter.notifyItemInserted(mExercisesTo.size()   );
 
         View view = this.getCurrentFocus();
         if (view != null) {

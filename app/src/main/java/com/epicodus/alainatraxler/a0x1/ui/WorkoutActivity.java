@@ -105,7 +105,7 @@ public class WorkoutActivity extends BaseActivity implements DataTransferInterfa
         mRecyclerViewFrom.setLayoutManager(FromLayoutManager);
         mRecyclerViewFrom.setHasFixedSize(true);
 
-        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this);
+        mToAdapter = new ToExerciseAdapter(getApplicationContext(), mExercisesTo, this, this, mRecyclerViewTo);
         mRecyclerViewTo.setAdapter(mToAdapter);
         RecyclerView.LayoutManager ToLayoutManager =
                 new LinearLayoutManager(WorkoutActivity.this);

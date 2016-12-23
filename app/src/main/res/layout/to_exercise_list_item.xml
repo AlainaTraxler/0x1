@@ -20,7 +20,15 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:src="@mipmap/ic_swap_vert_black_24dp" />
+        android:src="@mipmap/ic_drag_handle_black_24dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Split"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/Drag"
+        android:src="@mipmap/ic_layers_black_24dp" />
 
     <LinearLayout
         android:orientation="horizontal"
